@@ -4,63 +4,125 @@ $(function() {
     let config = {
         page: 0,
         pageSize: 10,
-        isLoad: true
+        isLoad: true,
+        filter: {
+            input: '',
+            type: '',
+            time: ''
+        }
     }
 
     let activityList = [];
     let $window = $(window);
     let $doc = $(document);
+    let search_msg = $('#j_msg');
 
 
-    getData(config.page, config.pageSize);   
+    getData(config.page, config.pageSize, config.filter); 
 
-    $window.scroll(function(){
-    　　let scrollTop = $window.scrollTop();
-    　　let scrollHeight = $doc.height();
-        let windowHeight = $window.height();
-    　　
-    　　if(scrollTop + windowHeight == scrollHeight && config.isLoad){
-            console.log('[activity] load info...');
-            config.isLoad = false;
-            config.page += config.pageSize;
-    　　　　getData(config.page, config.pageSize, function(flag) {
-                if(flag === 1) {
-                    config.isLoad = true;
-                }else {
-                    config.isLoad = false;
-                }
-            });
-    　　}
-    });
+    initEvent();
 
-    $('.triangle').click(function() {
-        if(!showOption) {
-            $('.other-option').show();
-            $(this).addClass('rotate');
-            showOption = true;
-        }else {
-            $('.other-option').hide();
-            $(this).removeClass('rotate');
-            showOption = false;
-        }
-    })
-
-    $('.btn').click(function() {
-        $(this).next().toggleClass('show');
-    })
-    $('.icon-list').click(function () {
-        $(this).next().toggleClass('show');
-    })
-    $('.option').click(function() {
-        $(this).addClass('active').siblings().removeClass('active');
-    })
-    
     /**
-     * ajax获取页面数据
+     * 初始化事件
      */
-    function getData(page, pageSize, callback) {
-        $.get('./verification.php?action=getList&page=' + page + '&size=' + pageSize, function(data) {
-            
+    function initEvent() {
+        $window.scroll(function(){
+        　　let scrollTop = $window.scrollTop();
+        　　let scrollHeight = $doc.height();
+            let windowHeight = $window.height();
+        　　
+        　　if(scrollTop + windowHeight == scrollHeight && config.isLoad){
+                console.log('[activity] load info...');
+                config.isLoad = false;
+                config.page += config.pageSize;
+        　　　　getData(config.page, config.pageSize, config.filter, function(flag) {
+                    console.log(flag)
+                    if(flag === 1) {
+                        config.isLoad = true;
+                    }else {
+                        config.isLoad = false;
+                    }
+                });
+        　　}
+        });
+    
+        $('.triangle').click(function() {
+            if(!showOption) {
+                $('.other-option').show();
+                $(this).addClass('rotate');
+                showOption = true;
+            }else {
+                $('.other-option').hide();
+                $(this).removeClass('rotate');
+                showOption = false;
+            }
+        })
+    
+        $('.btn').click(function() {
+            $(this).next().toggleClass('show');
+        });
+
+        $('.icon-list').click(function () {
+            $(this).next().toggleClass('show');
+        });
+
+        $('.option').click(function() {
+            $(this).addClass('active').siblings().removeClass('active');
+        });
+
+        $('#j_search').click(function() {
+            config.filter.input = search_msg.val();
+            if(!config.filter.input) {
+                return;
+            }else {
+                config.page = 0;
+                config.isLoad = true;
+                config.filter.type = '';
+                config.filter.time = '';
+                $('.default').addClass('active').siblings().removeClass('active');
+                activityList = [];
+                getData(config.page,config.pageSize,config.filter);
+            }
+        })
+
+        $('.filter-option > .option').click(function() {
+            config.filter.time = $(this).html();
+            console.log(config.filter.time);
+            config.page = 0;
+            config.isLoad = true;
+            config.filter.input = '';
+            activityList = [];
+            getData(config.page, config.pageSize, config.filter)
+        })
+        $('.filter-type > .option').click(function() {
+            config.filter.type = $(this).html();
+            console.log(config.filter.type);
+            config.page = 0;
+            config.isLoad = true;
+            config.filter.input = '';
+            activityList = [];
+            getData(config.page, config.pageSize, config.filter)
+        })
+    }
+    
+   /**
+    * 获取数据
+    * @param {number} page 字段起始行
+    * @param {number} pageSize 一次获取的数量
+    * @param {function} [callback] 回调 可无
+    */
+    function getData(page, pageSize, filter, callback) {
+        console.log(filter)
+        let str = '';
+        for(let i in filter) {
+            if(filter[i] != '') {
+                str += '&' + i + '=' + filter[i];
+            }
+        }
+        console.log(str);
+        
+        $.get('./verification.php?action=getList' + str + '&page=' + page + '&size=' + pageSize, function(data) {
+        
             let list = JSON.parse(data);
             
             console.log(list)
@@ -74,6 +136,7 @@ $(function() {
             }
             
         })
+
     }
 
     /**

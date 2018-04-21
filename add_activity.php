@@ -37,8 +37,8 @@
         </li>
         <li class="row"><span>发 起：</span><input type="text" autocomplete="off" name="release"></li>
         <li class="row"><span>组 织：</span><input type="text" autocomplete="off" name="organizer"></li>
-        <li class="row"><span>开 始：</span><input type="text" autocomplete="off" name="start" placeholder="格式：yyyy/MM/dd/HH:mm"></li>
-        <li class="row"><span>结 束：</span><input type="text" autocomplete="off" name="end" placeholder="格式：yyyy/MM/dd/HH:mm"></li>
+        <li class="row"><span>开 始：</span><input type="text" autocomplete="off" name="start" placeholder="格式：yyyy-MM-dd HH:mm"></li>
+        <li class="row"><span>结 束：</span><input type="text" autocomplete="off" name="end" placeholder="格式：yyyy-MM-dd HH:mm"></li>
         <li class="row"><span>地 点：</span><input type="text" autocomplete="off" name="place"></li>
         <li class="row"><span>人 数：</span><input type="text" autocomplete="off" name="number"></li>
         <li class="desc">

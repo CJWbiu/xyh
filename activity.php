@@ -12,15 +12,15 @@
 <body>
 <header>
     <div class="h-search">
-        <input type="text" placeholder="查找所有活动">
-        <button>
+        <input type="text" placeholder="查找所有活动" id="j_msg">
+        <button id="j_search">
             <span class="icon icon-search"></span>
         </button>
     </div>
     <div class="search-filter">
         <div class="filter-option filter">
             <span class="text">筛选：</span>
-            <span class="option active">全部</span>
+            <span class="option default active">全部</span>
             <span class="option">最近一周</span>
             <button class="triangle">
                 <span class="icon icon-down"></span>
@@ -29,7 +29,7 @@
         <div class="other-option" style="display:none;">
             <div class="filter-type filter">
                 <span class="text">类型：</span> 
-                <span class="option active">不限类型</span>
+                <span class="option default active">不限类型</span>
                 <span class="option">同学聚会</span>
                 <span class="option">座谈沙龙</span>
                 <span class="option">公益活动</span>
