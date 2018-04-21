@@ -47,6 +47,7 @@ function _set_names(){
 *_query() 判断sql语句是否执行失败
 */
 function _query($_sql){
+	// echo $_sql;
 	if(!$result=mysql_query($_sql)){
 		exit('SQL语句执行失败！'.mysql_error());
 	}

@@ -126,7 +126,11 @@ $(function() {
             let list = JSON.parse(data);
             
             console.log(list)
-            if(list.isend === 1) {
+            if(list.isempty === 1) {
+                $("#list").html('抱歉，没有找到相关记录X﹏X');
+                return;
+            }
+            if(list.isend === 1 ) {
                 console.log('is end...');
                 callback&&callback(0);
             }else {

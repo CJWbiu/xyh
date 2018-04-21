@@ -1,7 +1,6 @@
 <?php
 require dirname(__FILE__).'./include/common.php';
 
-
 //读取活动列表
 if($_GET['action'] == 'getList') {
     $page = $_GET['page'];
@@ -25,8 +24,9 @@ if($_GET['action'] == 'getList') {
     }else if(!isset($_GET['type']) && isset($_GET['time'])) {
         if($_GET['time'] != '全部') {
             $num = time() + 604800;
-            $result = _query("SELECT * FROM activity_list WHERE l_start <= $num LIMIT $page, $pageSize");
-            $all = _query("SELECT COUNT(*) FROM activity_list WHERE l_start <= $num");
+            $now = time();
+            $result = _query("SELECT * FROM activity_list WHERE l_start <= $num AND l_start >= $now LIMIT $page, $pageSize");
+            $all = _query("SELECT COUNT(*) FROM activity_list WHERE l_start <= $num AND l_start >= $now");
             $total=mysql_result($all,0);
         }else {
             $result = _query("SELECT * FROM activity_list LIMIT $page, $pageSize");
@@ -36,12 +36,14 @@ if($_GET['action'] == 'getList') {
     }else if(isset($_GET['type']) && isset($_GET['time'])) {
         if($_GET['time'] != '全部' && $_GET['type'] != '不限类型') {
             $num = time() + 604800;
-            $result = _query("SELECT * FROM activity_list WHERE l_start <= $num AND l_type = '{$_GET['type']}' LIMIT $page, $pageSize");
-            $all = _query("SELECT COUNT(*) FROM activity_list WHERE l_start <= $num AND l_type = '{$_GET['type']}'");
+            $now = time();
+            $result = _query("SELECT * FROM activity_list WHERE l_start <= $num AND l_start >= $now AND l_type = '{$_GET['type']}' LIMIT $page, $pageSize");
+            $all = _query("SELECT COUNT(*) FROM activity_list WHERE l_start <= $num AND l_start >= $now AND l_type = '{$_GET['type']}'");
             $total=mysql_result($all,0);
         }else if($_GET['time'] != '全部' && $_GET['type'] == '不限类型') {
             $num = time() + 604800;
-            $result = _query("SELECT * FROM activity_list WHERE l_start <= $num LIMIT $page, $pageSize");
+            $now = time();
+            $result = _query("SELECT * FROM activity_list WHERE l_start <= $num AND l_start >= $now LIMIT $page, $pageSize");
             $all = _query("SELECT COUNT(*) FROM activity_list WHERE l_start <= $num");
             $total=mysql_result($all,0);
         }else if($_GET['time'] == '全部' && $_GET['type'] != '不限类型') {
@@ -60,12 +62,16 @@ if($_GET['action'] == 'getList') {
     }
 
     $list = array();
-    if($page >= $total) {
+    // echo 'page='.$page.'--total='.$total;
+    if($page == 0 && $total == 0) {
+        echo '{"isempty":1}';
+        exit();
+    }else if($page >= $total) {
         echo '{"isend": 1}';
     }else {
         while($row = mysql_fetch_array($result,MYSQL_ASSOC)) {
-            $row['start'] = @date("Y-m-d H:i",$row['start']);
-            $row['end'] = @date("Y-m-d H:i",$row['end']);
+            $row['l_start'] = @date("Y-m-d H:i",$row['l_start']);
+            $row['l_end'] = @date("Y-m-d H:i",$row['l_end']);
             array_push($list, $row);
         }
         echo json_encode($list);
