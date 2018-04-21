@@ -52,7 +52,7 @@
     <div class="add-act">
         <a href="./add_activity.php">发起活动</a>
     </div> 
-    <div class="other-option">
+    <div class="more">
         <button class="btn">
             <span class="spot"></span>
             <span class="spot"></span>
