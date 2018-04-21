@@ -40,6 +40,7 @@ $(function() {
 
                 let formData = new FormData(form.get(0));
                 formData.append('action','add_activity');
+                formData.append('type',$('.select > input').val())
 
                 $.ajax({
                     url: "verification.php",
