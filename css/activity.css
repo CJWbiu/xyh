@@ -1,0 +1,290 @@
+body {
+    width: 100%;
+    position: relative;
+    background: #eee;
+}
+
+.icon {
+    font-family: "iconfont" !important;
+    font-size: 16px;
+    font-weight: bolder;
+}
+header {
+    padding: 5px;
+    background: #eee;
+    border-bottom: 1px solid rgba(0,0,0,.1);
+}
+header .h-search {
+    width: 100%;
+    margin-bottom: 10px;
+    position: relative;
+}
+header .h-search > input {
+    width: 100%;
+    height: 42px;
+    padding-left: 10px;
+    border: 2px solid #7BA7AB;
+    border-radius: 5px;
+    outline: none;
+    background: #F9F0DA;
+    color: #9E9C9C;
+    box-sizing: border-box;
+}
+header .h-search > button {
+    position: absolute;
+    top: 0;
+    right: 0px;
+    width: 42px;
+    height: 42px;
+    border: none;
+    background: #7BA7AB;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+}
+header .h-search > button .icon-search {
+    font-size: 22px;
+    color: #f9f0da;
+}
+header .search-filter {
+    width: 100%;
+    position: relative;
+}
+header .search-filter .other-option {
+    z-index: 10;
+    width: 100%;
+    position: absolute;
+    background: rgb(238, 238, 238);
+    margin: 0px -5px;
+    padding: 0px 5px;
+}
+header .search-filter .text {
+    color: #f7b552;
+    font-size: 16px;
+}
+header .search-filter .option {
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    font-size: 16px;
+    color: #acb3ae;
+    padding: 0 11px;
+    margin: 5px 10px;
+    border-radius: 5px;
+    background: #fff;
+}
+header .search-filter .option.active {
+    color: #fff;
+    background: #42cc6c;
+}
+header .search-filter .filter {
+    width: 100%;
+    line-height: 30px;
+    font-size: 12px;
+    font-weight: bold;
+    position: relative;  
+}
+header .search-filter .filter .triangle {
+    position: absolute;
+    top: 5px;
+    right: 0;
+    border: none;
+    background: transparent;
+    outline: none;
+    transition: all ease .3s;
+}
+header .search-filter .filter .triangle.rotate {
+    transform: rotate(180deg);
+}
+
+#list .option-wrapper {
+    width: 100%;
+    background: #fff;
+    position: relative;
+    margin-bottom: 10px;
+    padding-bottom: 40px;
+}
+#list .option-wrapper > h3 {
+    height: 45px;
+    line-height: 45px;
+    color: #5a5a5a;
+    font-size: 16px;
+    text-indent: .5em;   
+}
+#list .option-wrapper > h3 a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    font-weight: bolder;
+}
+#list .option-wrapper > h3 span {
+    color: #379465;
+    font-weight: bolder;
+}
+#list .option-wrapper > h3 span.end {
+    color: #8c8c8c;
+}
+#list .option-wrapper .content {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    grid-template-rows: repeat(5, 1fr);
+    padding: 0 10px 10px 10px;   
+}
+#list .option-wrapper .content .left {
+    grid-row-start: 1;
+    grid-row-end: 6;
+    background-size: cover;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+}
+#list .option-wrapper .content .right {
+    grid-row-start: 1;
+    grid-row-end: 6;
+    margin-left: 10px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-auto-rows: 25px;
+    
+}
+#list .option-wrapper .content .right > p {
+    line-height: 25px;
+}
+#list .option-wrapper .o-footer {
+    padding: 5px 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 20px;
+    border-top: 1px solid rgba(0,0,0,.1);
+    border-bottom: 1px solid rgba(0,0,0,.1);
+    
+}
+#list .option-wrapper .o-footer span {
+    display: block;
+    line-height: 20px;
+    font-size: 14px;
+    text-align: center;
+}
+#list .option-wrapper .o-footer span.icon {
+    font-family: "iconfont" !important;
+    display: inline-block;
+    margin-right: 10px;
+    font-size: 16px;
+}
+#list .option-wrapper .o-footer span.is-enroll {
+    font-weight: bolder;
+    border-right: 1px solid rgba(0,0,0,.5);
+}
+#list .option-wrapper .o-footer span.is-enroll > span {
+    color: #8c8c8c;
+}
+#list .option-wrapper .o-footer span.is-enroll > span > a {
+    color: #3862fb;
+}
+
+footer {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    display: grid;
+    grid-template-columns: 1fr 6fr 1fr;
+    grid-auto-rows: 40px;
+    line-height: 40px;
+    background: #fff;   
+}
+footer .icon {
+    font-weight: bolder;
+    margin-right: 10px;
+}
+footer .home {
+    position: relative;
+    
+    
+}
+footer .home .icon-list{
+    display: block;
+    margin-right: 0;
+    font-size: 18px;
+    color: #cccbcb;
+}
+footer .home > ul {
+    display: none;
+    position: absolute;
+    left: 0;
+    bottom: 40px;
+    width: 100%;
+    background: #fff;
+    border: 1px solid #d0d0d0;
+    
+}
+footer .home > ul.show {
+    display: block;
+}
+footer .home > ul li:first-child {
+    border-bottom: 1px solid #d0d0d0;
+} 
+footer .home > ul li a {
+    display: block;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    font-size: 18px;
+}
+footer > div {
+    padding: 6px 8px;
+    text-align: center;
+    line-height: 28px;
+}
+footer > div.add-act > a {
+    color: #0c7fe2;
+    font-size: 18px;
+}
+footer .other-option {
+    position: relative;
+}
+footer .other-option .btn {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    height: 100%;
+    line-height: inherit;
+    border: none;
+    background: #fff;
+    outline: none;
+}
+footer .other-option .btn .spot {
+    display: block;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #cccbcb;
+}
+footer .other-option .other {
+    display: none;
+    width: 100px;
+    position: absolute;
+    bottom: 42px;
+    right: 5px;
+    background: #fff;
+    border: 1px solid #ccc;
+}
+footer .other-option .other.show {
+    display: block;
+}
+footer .other-option .other > li {
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    text-align: left;
+    padding: 5px;
+    box-sizing: border-box;
+    border-bottom: 1px solid #ccc; 
+}
+footer .other-option .other > li:last-child {
+    border: none;
+}
+footer .other-option .other > li a {
+    display: block;
+    height: 100%;
+    line-height: 30px;
+    font-size: 14px;
+}
