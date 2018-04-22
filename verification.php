@@ -126,7 +126,7 @@ if(isset($_POST['action'])) {
             //获取新增的ID
             $_id=_insert_id();
             _close();
-            echo '{"errcode":0,"l_id":'.$_id.'}';
+            echo '{"errcode":0,"id":'.$_id.'}';
         }else{
             _close();
             echo '{"errcode":1,"errmsg":"数据库写入失败"}';

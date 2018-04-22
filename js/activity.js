@@ -165,14 +165,14 @@ $(function() {
             let isEnded = (!isEnd(item)) ? '' : 'end';
             let endMsg = (!isEnd(item)) ? '报名中' : '报名截止';
 
-            let attend = `<a href="/attend_activity.php?title=${item.title}">报名</a>`;
+            let attend = `<a href="attend_activity.php?title=${item.title}">报名</a>`;
             let nattend = `报名截止`;
             let attendMsg = (!isEnd(item)) ? attend : nattend;
 
             let option_tpl = `
             <div class="option-wrapper">
                 <h3>
-                    <a href="/activity_detail.php?activity_id=${item.l_id}">
+                    <a href="activity_detail.php?activity_id=${item.id}">
                         <span class="${isEnded}">【${endMsg}】</span>${item.l_title}
                     </a>
                 </h3>
@@ -184,7 +184,7 @@ $(function() {
                         <p>时间： ${item.l_start}</p>
                         <p>地点： ${item.l_place}</p>
                         <p>人数： ${item.l_number}
-                            <!-- <span class="exist" v-if="detailInfo.exist>0">(已有{{detailInfo.exist}}人参加)</span> -->
+                        <-- <span class="exist">(已有{{item.exist}}人参加)</span> -->
                         </p>
                     </div>
                 </div>

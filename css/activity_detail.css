@@ -1,0 +1,96 @@
+@import url("./common/footer.css");
+
+body, html {
+    background: #eee;
+}
+
+.img-wrapper {
+    width: 100%;
+    height: 180px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    position: relative;
+}
+.img-wrapper h3 {
+    width: 100%;
+    min-height: 40px;
+    line-height: 40px;
+    background: rgba(0,0,0,.1);
+    font-size: 18px;
+    font-weight: bolder;
+    color: #fff;
+    text-align: left;
+    text-indent: .5em;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+.activity-info {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-auto-rows: 40px;
+    background: #fff;
+}
+.activity-info > li {
+    line-height: 40px;
+    border-bottom: 1px solid rgb(243,243,243);
+    color: #737373;
+    font-weight: bolder;
+    font-size: 16px;
+    text-indent: 1em;
+}
+.item {
+   width: 100%;
+   position: relative;
+   margin-top: 10px;
+   background: #fff;
+}
+.item h3 {
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    text-indent: 1.5em;
+    font-size: 16px;
+    color: #5a5a5a;
+    font-weight: bold;
+    border-bottom: 1px solid rgb(243,243,243);
+} 
+.item h3::after {
+    display: block;
+    content: '';
+    width: 3px;
+    height: 30px;
+    border-radius: 2px;
+    background: #4395ff;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+}
+.item .actor-list {
+    padding: 5px;
+    box-sizing: border-box;
+    overflow: hidden;   
+}
+.item .actor-list .avatar {
+    display: block;
+    float: left;
+    width: 50px;
+    height: 50px;
+    background-image: url('http://localhost:3000/activityPage/082.jpg');
+    background-position: center !important;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+    border-radius: 50%;
+    margin-right: 3px;
+}
+.item .actor-list .showDetail {
+    width: 20px;
+    height: 20px;
+    float: right;
+    margin-top: 15px;
+    margin-right: 5px;
+    border-right: 2px solid #e4e4e4;
+    border-top: 2px solid #e4e4e4;
+    transform: rotate(45deg);
+}

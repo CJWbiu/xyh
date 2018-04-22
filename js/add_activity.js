@@ -52,7 +52,7 @@ $(function() {
                         data = JSON.parse(data);
                         console.log(data);
                         if(data.errcode === 0) {
-                            window.location.href = 'activity_detail.php?id=' + data.l_id;
+                            window.location.href = 'activity_detail.php?activity_id=' + data.id;
                         }
                     },
                     error: function(xht) {

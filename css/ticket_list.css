@@ -1,0 +1,88 @@
+@import url("./common/footer.css");
+
+body, html {
+    background: #eee;
+}
+* {
+    box-sizing: border-box !important;
+}
+
+.ticket-wrapper {
+    width: 100%;
+    padding: 10px 10px 40px 10px;
+}
+.ticket-wrapper li {
+    width: 100%;
+    border-left: 3px solid #ca1212;
+    background: #fff;
+    position: relative;
+    overflow: hidden;
+}
+.ticket-wrapper .ticket {
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    padding: 5px;
+}
+.ticket .left {
+    flex: 1;
+    border-right: 2px dotted #c7c7c7;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-auto-rows: 20px;
+}
+.left .time {
+    grid-row-start: 2;
+    grid-row-end: 5;
+    text-align: center;
+    font-size: 30px;
+    color: #03a9f4;
+    line-height: 60px;
+}
+.left .day {
+    line-height: 40px;
+    text-align: center;
+    font-size: 18px;
+}
+.ticket .right {
+    flex: 3;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-auto-rows: 20px;
+    padding-left: 10px;
+}
+.ticket .right h3 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    grid-row-start: 1;
+    grid-row-end: 3;
+    font-size: 20px;
+    line-height: 40px;
+    color: #383838;
+}
+.ticket .right > p {
+    line-height: 20px;
+}
+.flag {
+    position: absolute;
+    top: 7px;
+    right: -36px;
+    color: #fff;
+    background: #388E3C;
+    display: block;
+    width: 117px;
+    height: 25px;
+    text-align: center;
+    line-height: 25px;
+    font-size: 12px;
+    transform: rotate(45deg);
+}
+.flag.disabled {
+    color:#b5b5b5;
+}
+
+
+footer .add-act > a {
+    color: #000 !important;
+}
