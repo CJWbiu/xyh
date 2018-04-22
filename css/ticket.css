@@ -1,0 +1,14 @@
+@import url("./common/footer.css");
+
+body, html {
+    background: #eee;
+}
+* {
+    box-sizing: border-box !important;
+}
+
+
+
+footer .add-act > a {
+    color: #000 !important;
+}

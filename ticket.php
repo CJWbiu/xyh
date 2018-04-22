@@ -6,41 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="./css/reset.css">
     <link rel="stylesheet" href="./assert/awesome/iconfont.css">
-    <link rel="stylesheet" href="./css/activity.css">
-    <title>活动列表</title>
+    <link rel="stylesheet" href="./css/ticket.css">
+    <title>电子票详情</title>
 </head>
 <body>
-<header>
-    <div class="h-search">
-        <input type="text" placeholder="查找所有活动" id="j_msg">
-        <button id="j_search">
-            <span class="icon icon-search"></span>
-        </button>
-    </div>
-    <div class="search-filter">
-        <div class="filter-option filter">
-            <span class="text">筛选：</span>
-            <span class="option default active">全部</span>
-            <span class="option">最近一周</span>
-            <button class="triangle">
-                <span class="icon icon-down"></span>
-            </button>
-        </div>
-        <div class="other-option" style="display:none;">
-            <div class="filter-type filter">
-                <span class="text">类型：</span> 
-                <span class="option default active">不限类型</span>
-                <span class="option">同学聚会</span>
-                <span class="option">座谈沙龙</span>
-                <span class="option">公益活动</span>
-                <span class="option">户外运动</span>
-                <span class="option">会议</span>
-            </div>
-        </div>
-    </div>
-</header>
-<div id="list">
-</div>
+
 <footer>
     <div class="home">
         <span class="icon icon-list"></span> 
@@ -50,7 +20,7 @@
         </ul>
     </div> 
     <div class="add-act">
-        <a href="./add_activity.php">发起活动</a>
+        <a href="javascript:;">我的电子票</a>
     </div> 
     <div class="more">
         <button class="btn">
@@ -66,7 +36,7 @@
         </ul>
     </div>
 </footer>
-<script src="./js/jquery.js"></script>
-<script src="./js/activity.js"></script>
+<script src="./js/jquery.js"></script>  
+<script src="./js/ticket.js"></script>    
 </body>
 </html>

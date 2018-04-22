@@ -60,7 +60,7 @@ if(isset($_GET['activity_id'])) {
         <span class="icon icon-list"></span> 
         <ul>
             <li><a href="#"><span class="icon icon-home"></span></a></li> 
-            <li><a href="javascript:;"><span class="icon icon-aui-icon-back"></span></a></li>
+            <li><a href="javascript:history.back();"><span class="icon icon-aui-icon-back"></span></a></li>
         </ul>
     </div> 
     <div class="add-act">
@@ -76,7 +76,7 @@ if(isset($_GET['activity_id'])) {
             <li><a href="#"><span class="icon icon-circles" style="color: rgb(202, 138, 84);"></span>圈子</a></li> 
             <li><a href="#"><span class="icon icon-group" style="margin-right: 5px; color: rgb(56, 86, 195);"></span> 个人信息</a></li> 
             <li><a href="#"><span class="icon icon-activityfill" style="color: rgb(106, 219, 224);"></span>活动</a></li> 
-            <li><a href="javascript:;"><span class="icon icon-refresh" style="color: rgb(17, 146, 51);"></span> 刷新</a></li>
+            <li><a href="javascript:location.reload();"><span class="icon icon-refresh" style="color: rgb(17, 146, 51);"></span> 刷新</a></li>
         </ul>
     </div>
 </footer>
