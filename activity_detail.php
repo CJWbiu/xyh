@@ -3,6 +3,7 @@ require dirname(__FILE__).'./include/common.php';
 
 if(isset($_GET['activity_id'])) {
     $detail = _fetch_array("SELECT * FROM activity_list WHERE id ='{$_GET['activity_id']}'");
+    _query("UPDATE activity_list SET l_read=l_read+1 WHERE id='{$_GET['activity_id']}'");
     // print_r($detail);
 
 }
