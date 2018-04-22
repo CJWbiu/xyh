@@ -92,6 +92,7 @@ $(function() {
             config.isLoad = true;
             config.filter.input = '';
             activityList = [];
+            search_msg.val('');
             getData(config.page, config.pageSize, config.filter)
         })
         $('.filter-type > .option').click(function() {
@@ -101,6 +102,7 @@ $(function() {
             config.isLoad = true;
             config.filter.input = '';
             activityList = [];
+            search_msg.val('');
             getData(config.page, config.pageSize, config.filter)
         })
     }
@@ -127,7 +129,7 @@ $(function() {
             
             console.log(list)
             if(list.isempty === 1) {
-                $("#list").html('抱歉，没有找到相关记录X﹏X');
+                $("#list").html('<p class="err">抱歉，没有找到相关记录X﹏X</p>');
                 return;
             }
             if(list.isend === 1 ) {
@@ -184,7 +186,6 @@ $(function() {
                         <p>时间： ${item.l_start}</p>
                         <p>地点： ${item.l_place}</p>
                         <p>人数： ${item.l_number}
-                        <-- <span class="exist">(已有{{item.exist}}人参加)</span> -->
                         </p>
                     </div>
                 </div>

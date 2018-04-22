@@ -10,6 +10,25 @@
     <title>电子票详情</title>
 </head>
 <body>
+<div class="wrapper">
+    <div class="bar"></div>
+    <div class="content">
+        <div class="info">
+            <h1>电子票</h1>
+            <a href="activity_detail.php" class="t-content">
+                <h3>大家讲堂记录的房间昆仑山</h3>
+                <p>上海交通大学闵行消歧义</p>
+                <p>2018 ~ 2018</p>
+                <span class="icon icon-down"></span>
+            </a>
+        </div>
+        <div class="number">
+            <div class="identify">1008</div>
+            <p class="tips">fdafafafafafa</p>
+        </div>
+        <span class="flag">未使用</span>
+    </div>
+</div>
 
 <footer>
     <div class="home">

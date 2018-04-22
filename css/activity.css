@@ -105,6 +105,13 @@ header .search-filter .filter .triangle.rotate {
     margin-bottom: 10px;
     padding-bottom: 40px;
 }
+#list .err {
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    font-size: 20px;
+    margin-top: 100px;
+}
 #list .option-wrapper > h3 {
     height: 45px;
     line-height: 45px;
