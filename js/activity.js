@@ -223,8 +223,11 @@ function join(id,end) {
             res = JSON.parse(res);
             if(res.errcode == '0000') {
                 window.location.href = 'ticket.php?t_id=' + res.t_id;
+            }else if(res.errcode == '0002') {
+                alert('已经报过名了');
+                window.location.href = 'ticket.php?t_id=' + res.t_id;
             }else {
-                alert(res.errmsg);
+                alert('报名失败');
             }
         }catch(e) {
             console.log(res);
