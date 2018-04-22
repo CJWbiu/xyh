@@ -1,3 +1,19 @@
+<?php
+require dirname(__FILE__).'./include/common.php';
+
+if(isset($_COOKIE['username'])) {
+    if(_fetch_array("SELECT u_id FROM user WHERE u_name = '{$_COOKIE['username']}' LIMIT 1")) {
+        $detail = _fetch_array("SELECT * FROM ticket WHERE t_id ='{$_GET['t_id']}'");
+        echo $detail;
+    }else {
+        echo '<script>alert("非法登录"); window.history.back()</script>';
+    }
+}else {  
+        echo '<script>alert("请登录"); window.history.back()</script>';
+    }
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

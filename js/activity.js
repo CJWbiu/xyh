@@ -225,7 +225,7 @@ function join(id,end) {
                 window.location.href = 'ticket.php?t_id=' + res.t_id;
             }else if(res.errcode == '0002') {
                 alert('已经报过名了');
-                window.location.href = 'ticket.php?t_id=' + res.t_id;
+                window.location.href = 'ticket_list.php';
             }else {
                 alert('报名失败');
             }
