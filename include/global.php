@@ -1,5 +1,6 @@
 <?php
-    /**
+
+/**
  * 文件上传
  * @param  [type]  $fileInfo   [description]
  * @param  [type]  $allowType  [description]

@@ -1,11 +1,29 @@
 <?php
 require dirname(__FILE__).'./include/common.php';
-
+$msg = '';
+$isenroll = true;
 if(isset($_GET['activity_id'])) {
     $detail = _fetch_array("SELECT * FROM activity_list WHERE id ='{$_GET['activity_id']}'");
     _query("UPDATE activity_list SET l_read=l_read+1 WHERE id='{$_GET['activity_id']}'");
     // print_r($detail);
-
+    if(@strtotime(date("Y-m-d H:i")) - $detail['l_end'] < 0) {
+        if(_fetch_array("SELECT t_id FROM ticket WHERE t_user = '{$_COOKIE['username']}' AND t_act_id = '{$detail['id']}'")) {
+            $msg = "已报名";
+            $isenroll = false;
+            _close();
+        }else {
+            $msg = "报名";
+            $isenroll = true;
+            _close();
+        }
+    }else {
+        $msg = "已过期";
+            $isenroll = false;
+    }
+    $detail['l_start'] = @date("Y-m-d H:i",$detail['l_start']);
+    $detail['l_end'] = @date("Y-m-d H:i",$detail['l_end']);
+    echo $msg;
+    echo $isenroll;
 }
 
 ?>
@@ -65,7 +83,9 @@ if(isset($_GET['activity_id'])) {
         </ul>
     </div> 
     <div class="add-act">
-        <a href="join.php">报名</a>
+        <a href="javascript:;" data-flag="<?php echo $isenroll; ?>" data-id="<?php echo $detail['id']; ?>" data-end="<?php echo $detail['l_end']; ?>">
+            <?php echo $msg; ?>
+        </a>
     </div> 
     <div class="more">
         <button class="btn">

@@ -18,18 +18,7 @@ $(function() {
     let search_msg = $('#j_msg');
 
 
-    getData(config.page, config.pageSize, config.filter, function() {
-        $('.like').on('click', function() {
-            let id = $(this).get(0).dataset.id;
-            $.get('verification.php?action=like&act_id=' + id, function(res) {
-                res = JSON.parse(res);
-                console.log(res);
-                if(res.errcode == 1000) {
-                    window.location.href = 'login.php';
-                }
-            })
-        })
-    }); 
+    getData(config.page, config.pageSize, config.filter); 
 
     initEvent();
 
@@ -173,8 +162,7 @@ $(function() {
 
             let isEnded = (!isEnd(item)) ? '' : 'end';
             let endMsg = (!isEnd(item)) ? '报名中' : '报名截止';
-
-            let attend = `<a href="attend_activity.php?title=${item.title}">报名</a>`;
+            let attend = `<span onclick="join(${item.id},'${item.l_end}')" data-id="${item.id}" data-end="${item.l_end}" class="jointo">报名</span>`;
             let nattend = `报名截止`;
             let attendMsg = (!isEnd(item)) ? attend : nattend;
 
@@ -198,10 +186,10 @@ $(function() {
                 </div>
                 <div class="o-footer">
                     <span class="is-enroll">
-                        <span>${attendMsg}</span>
+                        <span class="enrollmsg">${attendMsg}</span>
                     </span>
                     <span><span class="icon icon-comment" style="color: #b39218;"></span>0</span>
-                    <span class="like" data-id="${item.id}"><span class="icon icon-like" style="color: #3642da;"></span>${item.l_like}</span>
+                    <span class="like" onclick="like(${item.id})" data-id="${item.id}"><span class="icon icon-like" style="color: #3642da;"></span>${item.l_like}</span>
                     <span><span class="icon icon-eye" style="color: #17ce14;"></span>${item.l_read}</span>
                 </div>
             </div>
@@ -214,3 +202,34 @@ $(function() {
     }
     
 })
+function like(id) {
+    console.log(id);
+    return;
+    $.get('verification.php?action=like&act_id=' + id, function(res) {
+        res = JSON.parse(res);
+        console.log(res);
+        if(res.errcode == 1000) {
+            window.location.href = 'login.php';
+        }
+    })
+}
+
+function join(id,end) {
+    end = new Date(end).getTime();
+    $.get('verification.php?action=join&act_id=' + id + '&end=' + end, function(res) {
+        // res = JSON.parse(res);
+        console.log(res);
+        try{
+            res = JSON.parse(res);
+            if(res.errcode == '0000') {
+                window.location.href = 'ticket.php?t_id=' + res.t_id;
+            }else {
+                alert(res.errmsg);
+            }
+        }catch(e) {
+            console.log(res);
+            return;
+        }
+        
+    })
+}

@@ -1,5 +1,6 @@
 <?php
 require dirname(__FILE__).'./include/common.php';
+setcookie('username','cheng',time()+604800);
 
 //读取活动列表
 if($_GET['action'] == 'getList') {
@@ -80,7 +81,7 @@ if($_GET['action'] == 'getList') {
 }
 
 //点赞
-if($_GET['action'] == 'like') {
+if(isset($_GET['action']) && $_GET['action'] == 'like') {
     if(!isset($_COOKIE['username'])) {
         echo '{"errcode":"1000","errmsg": "请登录"}';
         exit();
@@ -100,6 +101,40 @@ if($_GET['action'] == 'like') {
             _close();
         }
     }
+}
+
+if(isset($_GET['action']) && $_GET['action'] == 'join') {
+    if(isset($_COOKIE['username'])) {
+        if(_fetch_array("SELECT u_id FROM user WHERE u_name = '{$_COOKIE['username']}' LIMIT 1")) {
+            if(_fetch_array("SELECT t_id FROM ticket WHERE t_user = '{$_COOKIE['username']}' AND t_act_id = '{$_GET['act_id']}'")) {
+                echo '{"errcode": "0002","errmsg":"已经报过名"}';
+                _close();
+            }else {
+                _query("
+                    INSERT INTO ticket (
+                                        t_act_id,
+                                        t_user,
+                                        t_end
+                                    )
+                                VALUES (
+                                        '{$_GET['act_id']}',
+                                        '{$_COOKIE['username']}',
+                                        '{$_GET['end']}'
+                                    ) 
+                    ");
+                if(mysql_affected_rows()==1){
+                    $_id=_insert_id();
+                    echo '{"errcode": "0000","t_id":'.$_id.'"}';
+                    _close();
+                }else {
+                    echo '{"errcode": "0001","errmsg":"报名失败"}';
+                    _close();
+                }
+            }
+        }
+    }
+
+
 }
 
 //添加活动
