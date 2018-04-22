@@ -79,6 +79,29 @@ if($_GET['action'] == 'getList') {
 
 }
 
+//点赞
+if($_GET['action'] == 'like') {
+    if(!isset($_COOKIE['username'])) {
+        echo '{"errcode":"1000","errmsg": "请登录"}';
+        exit();
+    }
+    $act_id = $_GET['act_id'];
+    $sql = "SELECT id FROM act_like WHERE user_name='{$_COOKIE['username']}'LIMIT 1";
+    if(_fetch_array($sql)) {
+        echo '{"errcode":"1001","errmsg": "已点赞"}';
+        _close();
+    }else {
+        _query("UPDATE activity_list SET l_like=l_like+1 WHERE id='{$act_id}'");
+        if(_affected_rows() == 1) {
+            echo '{"errcode":"0000","errmsg":"修改成功"}';
+            _close();
+        }else {
+            echo '{"errcode":"0001","errmsg":"修改失败"}';
+            _close();
+        }
+    }
+}
+
 //添加活动
 if(isset($_POST['action'])) {
     if($_POST['action'] == 'add_activity') {

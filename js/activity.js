@@ -18,7 +18,18 @@ $(function() {
     let search_msg = $('#j_msg');
 
 
-    getData(config.page, config.pageSize, config.filter); 
+    getData(config.page, config.pageSize, config.filter, function() {
+        $('.like').on('click', function() {
+            let id = $(this).get(0).dataset.id;
+            $.get('verification.php?action=like&act_id=' + id, function(res) {
+                res = JSON.parse(res);
+                console.log(res);
+                if(res.errcode == 1000) {
+                    window.location.href = 'login.php';
+                }
+            })
+        })
+    }); 
 
     initEvent();
 
@@ -32,11 +43,9 @@ $(function() {
             let windowHeight = $window.height();
         　　
         　　if(scrollTop + windowHeight == scrollHeight && config.isLoad){
-                console.log('[activity] load info...');
                 config.isLoad = false;
                 config.page += config.pageSize;
         　　　　getData(config.page, config.pageSize, config.filter, function(flag) {
-                    console.log(flag)
                     if(flag === 1) {
                         config.isLoad = true;
                     }else {
@@ -87,7 +96,6 @@ $(function() {
 
         $('.filter-option > .option').click(function() {
             config.filter.time = $(this).html();
-            console.log(config.filter.time);
             config.page = 0;
             config.isLoad = true;
             config.filter.input = '';
@@ -97,7 +105,6 @@ $(function() {
         })
         $('.filter-type > .option').click(function() {
             config.filter.type = $(this).html();
-            console.log(config.filter.type);
             config.page = 0;
             config.isLoad = true;
             config.filter.input = '';
@@ -105,6 +112,7 @@ $(function() {
             search_msg.val('');
             getData(config.page, config.pageSize, config.filter)
         })
+
     }
     
    /**
@@ -114,7 +122,6 @@ $(function() {
     * @param {function} [callback] 回调 可无
     */
     function getData(page, pageSize, filter, callback) {
-        console.log(filter)
         let str = '';
         for(let i in filter) {
             if(filter[i] != '') {
@@ -194,7 +201,7 @@ $(function() {
                         <span>${attendMsg}</span>
                     </span>
                     <span><span class="icon icon-comment" style="color: #b39218;"></span>0</span>
-                    <span><span class="icon icon-like" style="color: #3642da;"></span>${item.l_like}</span>
+                    <span class="like" data-id="${item.id}"><span class="icon icon-like" style="color: #3642da;"></span>${item.l_like}</span>
                     <span><span class="icon icon-eye" style="color: #17ce14;"></span>${item.l_read}</span>
                 </div>
             </div>
