@@ -185,6 +185,9 @@ header .search-filter .filter .triangle.rotate {
 #list .option-wrapper .o-footer span.is-enroll > span {
     color: #8c8c8c;
 }
-#list .option-wrapper .o-footer span.is-enroll > span > span {
+#list .option-wrapper .o-footer span.is-enroll > .jointo {
     color: #3862fb;
+}
+#list .option-wrapper .o-footer span.is-enroll > .esc {
+    color: #c3ad0e;
 }

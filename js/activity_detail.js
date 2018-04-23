@@ -17,9 +17,9 @@ $(function() {
             let start = $(this).children(0).get(0).dataset.start;
             let place = $(this).children(0).get(0).dataset.place;
             let title = $(this).children(0).get(0).dataset.title;
-            if(!flag) {
+            if(flag == 0) {
                 return;
-            }else {
+            }else if(flag == 1) {
                 end = new Date(end).getTime();
                 start = new Date(start).getTime();
                 let data = {
@@ -46,6 +46,16 @@ $(function() {
                         return;
                     }
                     
+                })
+            }else if(flag == 2) {
+                $.post('verification.php',{"action":"esc_join","t_act_id": id}, function(res){
+                    console.log(res);
+                    res = JSON.parse(res);
+                    if(res.errcode == '0000') {
+                        window.location.reload();
+                    }else {
+                        console.log(res.errmsg);
+                    }
                 })
             }
         })

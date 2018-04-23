@@ -1,16 +1,13 @@
 <?php
 require dirname(__FILE__).'./include/common.php';
-
-if(isset($_COOKIE['username'])) {
-    if(_fetch_array("SELECT u_id FROM user WHERE u_name = '{$_COOKIE['username']}' LIMIT 1")) {
-        $detail = _fetch_array("SELECT * FROM ticket WHERE t_id ='{$_GET['t_id']}'");
-        echo $detail;
-    }else {
-        echo '<script>alert("非法登录"); window.history.back()</script>';
-    }
+if(_is_login('username')) {
+    $detail = _fetch_array("SELECT * FROM ticket WHERE t_id ='{$_GET['t_id']}'");
+    $start = date("Y-m-d H:i",($detail['t_start']/1000));
+    $end = date("Y-m-d H:i",($detail['t_end']/1000));
 }else {  
-        echo '<script>alert("请登录"); window.history.back()</script>';
-    }
+    echo '<script>alert("请登录"); window.history.back()</script>';
+}
+
 
 ?>
 
@@ -31,16 +28,16 @@ if(isset($_COOKIE['username'])) {
     <div class="content">
         <div class="info">
             <h1>电子票</h1>
-            <a href="activity_detail.php" class="t-content">
-                <h3>大家讲堂记录的房间昆仑山</h3>
-                <p>上海交通大学闵行消歧义</p>
-                <p>2018 ~ 2018</p>
+            <a href="activity_detail.php?activity_id=<?php echo $detail['t_act_id']; ?>" class="t-content">
+                <h3><?php echo $detail['t_title']; ?></h3>
+                <p><?php echo $detail['t_place']; ?></p>
+                <p><?php echo $start." ~ ".$end; ?></p>
                 <span class="icon icon-down"></span>
             </a>
         </div>
         <div class="number">
             <div class="identify">1008</div>
-            <p class="tips">fdafafafafafa</p>
+            <p class="tips">请签到管理人用微信扫描二维码进行验证</p>
         </div>
         <span class="flag">未使用</span>
     </div>
@@ -66,7 +63,7 @@ if(isset($_COOKIE['username'])) {
         <ul class="other">
             <li><a href="#"><span class="icon icon-circles" style="color: rgb(202, 138, 84);"></span>圈子</a></li> 
             <li><a href="#"><span class="icon icon-group" style="margin-right: 5px; color: rgb(56, 86, 195);"></span> 个人信息</a></li> 
-            <li><a href="#"><span class="icon icon-activityfill" style="color: rgb(106, 219, 224);"></span>活动</a></li> 
+            <li><a href="activity.php"><span class="icon icon-activityfill" style="color: rgb(106, 219, 224);"></span>活动</a></li> 
             <li><a href="javascript:location.reload();"><span class="icon icon-refresh" style="color: rgb(17, 146, 51);"></span> 刷新</a></li>
         </ul>
     </div>

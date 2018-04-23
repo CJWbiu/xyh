@@ -73,6 +73,12 @@ if($_GET['action'] == 'getList') {
         while($row = mysql_fetch_array($result,MYSQL_ASSOC)) {
             $row['l_start'] = @date("Y-m-d H:i",$row['l_start']);
             $row['l_end'] = @date("Y-m-d H:i",$row['l_end']);
+            //判断是否已报名
+            if(_fetch_array("SELECT t_id FROM ticket WHERE t_user = '{$_COOKIE['username']}' AND t_act_id = '{$row['id']}'")) {
+                $row['isenroll'] = true;
+            }else {
+                $row['isenroll'] = false;
+            }
             array_push($list, $row);
         }
         echo json_encode($list);
@@ -103,7 +109,7 @@ if(isset($_GET['action']) && $_GET['action'] == 'like') {
         exit();
     }
 }
-
+//报名
 if(isset($_POST['action']) && $_POST['action'] == 'join') {
     if(_is_login('username')) {
         if(_fetch_array("SELECT t_id FROM ticket WHERE t_user = '{$_COOKIE['username']}' AND t_act_id = '{$_GET['act_id']}'")) {
@@ -141,7 +147,24 @@ if(isset($_POST['action']) && $_POST['action'] == 'join') {
         echo '{"errcode": "1000", "errmsg":"请登录"}';
     }
 }
-
+//取消报名
+if(isset($_POST['action']) && $_POST['action'] == 'esc_join') {
+    if(_is_login('username')) {
+        $t_act_id = $_POST['t_act_id'];
+        _query("DELETE FROM ticket WHERE t_act_id = '{$t_act_id}' AND t_user = '{$_COOKIE['username']}'");
+        if(_affected_rows() == 1) {
+            echo '{"errcode":"0000","errmsg":"修改成功"}';
+            _close();
+        }else {
+            echo '{"errcode":"3002","errmsg":"取消报名失败"}';
+            _close();
+        }
+    }else {
+        echo '{"errcode":"1000","errmsg": "请登录"}';
+        exit();
+    }
+}
+//读取电子票列表
 if(isset($_GET['action']) && $_GET['action'] == 'all_ticket') {
     if(_is_login('username')) {
         $ticket_list = array();

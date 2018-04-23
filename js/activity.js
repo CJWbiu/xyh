@@ -162,9 +162,17 @@ $(function() {
 
             let isEnded = (!isEnd(item)) ? '' : 'end';
             let endMsg = (!isEnd(item)) ? '报名中' : '报名截止';
-            let attend = `<span onclick="join(${item.id},'${item.l_end}','${item.l_start}','${item.l_title}','${item.l_place}')" data-id="${item.id}" data-end="${item.l_end}" class="jointo">报名</span>`;
             let nattend = `报名截止`;
-            let attendMsg = (!isEnd(item)) ? attend : nattend;
+            let attendMsg = '';
+            if(isEnd(item)) {
+                attendMsg = '<span class="end">报名截止</span>';
+            }else {
+                if(item.isenroll) {
+                    attendMsg = `<span class="esc" onclick="escJoin(${item.id},this)">取消报名</span>`;
+                }else {
+                    attendMsg = `<span onclick="join(${item.id},'${item.l_end}','${item.l_start}','${item.l_title}','${item.l_place}')" data-id="${item.id}" data-end="${item.l_end}" class="jointo">报名</span>`;
+                }
+            }
 
             let option_tpl = `
             <div class="option-wrapper">
@@ -186,7 +194,7 @@ $(function() {
                 </div>
                 <div class="o-footer">
                     <span class="is-enroll">
-                        <span class="enrollmsg">${attendMsg}</span>
+                        ${attendMsg}
                     </span>
                     <span><span class="icon icon-comment" style="color: #b39218;"></span>0</span>
                     <span class="like" onclick="like(${item.id})" data-id="${item.id}"><span class="icon icon-like" style="color: #3642da;"></span>${item.l_like}</span>
@@ -216,8 +224,18 @@ function like(id) {
 
 function join(id,end,start,title,place) {
     end = new Date(end).getTime();
-    $.get('verification.php?action=join&act_id=' + id + '&end=' + end + '&start=' + start + '&title=' + title + '&place=' + place, function(res) {
-       
+    start = new Date(start).getTime();
+    let data = {
+        "action": "join" ,
+        "act_id": id,
+        "end": end,
+        "start": start,
+        "place": place,
+        "title": title
+    };
+    console.log(data);
+    $.post('verification.php', data, function(res) {
+       console.log(res);
         try{
             res = JSON.parse(res);
             console.log(res);
@@ -235,5 +253,17 @@ function join(id,end,start,title,place) {
             return;
         }
         
+    })
+}
+
+function escJoin(id,item) {
+    $.post('verification.php',{"action":"esc_join","t_act_id": id}, function(res){
+        console.log(res);
+        res = JSON.parse(res);
+        if(res.errcode == '0000') {
+            window.location.reload();
+        }else {
+            console.log(res.errmsg);
+        }
     })
 }

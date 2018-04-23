@@ -11,17 +11,17 @@ if(isset($_GET['activity_id']) && _is_login("username")) {
 
     if(@strtotime(date("Y-m-d H:i")) - $detail['l_end'] < 0) {
         if(_fetch_array("SELECT t_id FROM ticket WHERE t_user = '{$_COOKIE['username']}' AND t_act_id = '{$detail['id']}'")) {
-            $msg = "已报名";
-            $isenroll = false;
+            $msg = "已报名(取消报名)";
+            $isenroll = 2;
             _close();
         }else {
             $msg = "报名";
-            $isenroll = true;
+            $isenroll = 1;
             _close();
         }
     }else {
         $msg = "已过期";
-            $isenroll = false;
+            $isenroll = 0;
     }
     $detail['l_start'] = @date("Y-m-d H:i",$detail['l_start']);
     $detail['l_end'] = @date("Y-m-d H:i",$detail['l_end']);
@@ -102,7 +102,7 @@ if(isset($_GET['activity_id']) && _is_login("username")) {
         <ul class="other">
             <li><a href="#"><span class="icon icon-circles" style="color: rgb(202, 138, 84);"></span>圈子</a></li> 
             <li><a href="#"><span class="icon icon-group" style="margin-right: 5px; color: rgb(56, 86, 195);"></span> 个人信息</a></li> 
-            <li><a href="#"><span class="icon icon-activityfill" style="color: rgb(106, 219, 224);"></span>活动</a></li> 
+            <li><a href="activity.php"><span class="icon icon-activityfill" style="color: rgb(106, 219, 224);"></span>活动</a></li> 
             <li><a href="javascript:location.reload();"><span class="icon icon-refresh" style="color: rgb(17, 146, 51);"></span> 刷新</a></li>
         </ul>
     </div>
