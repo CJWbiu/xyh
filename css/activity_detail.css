@@ -40,6 +40,17 @@ body, html {
     font-size: 16px;
     text-indent: 1em;
 }
+#time .day {
+    font-size: 18px;
+    font-weight: bolder;
+    color: #fff;
+    text-shadow: 0px 0px 10px #ff0000;
+}
+#time .box {
+    font-size: 16px;
+    color: #1f97c5;
+    font-weight: bolder;
+}
 .item {
    width: 100%;
    position: relative;

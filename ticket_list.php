@@ -11,20 +11,7 @@
 </head>
 <body>
 <ul class="ticket-wrapper">
-    <li>
-        <a class="ticket" href="ticket.php">
-            <div class="left">
-                <p class="day">18/04/25</p>
-                <p class="time">19:30</p>
-            </div>
-            <div class="right">
-                <h3>大家讲堂jkfldajkflajfldajfklafjdkalfjkalfjkaljfkadljfkdalfjkalfdakfjkadl </h3>
-                <p>有效期至2018-04-25 21:30</p>
-                <p>上海交通大学闵行校区</p>
-            </div>
-        </a>
-        <span class="flag">未使用</span>
-    </li>
+
 </ul>
 
 <footer>

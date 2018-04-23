@@ -99,4 +99,14 @@ function _close(){
 		exit('关闭异常！');
 	}
 }
+/**
+ * 判断用户是否登录
+ */
+function _is_login($key){
+	if(isset($_COOKIE[$key]) && _fetch_array("SELECT u_id FROM user WHERE u_name = '{$_COOKIE[$key]}' LIMIT 1")) {
+		return true;
+	}else {
+		return false;	
+	}
+}
 ?>

@@ -51,7 +51,7 @@ $(function() {
                     success: function(data) {
                         data = JSON.parse(data);
                         console.log(data);
-                        if(data.errcode === 0) {
+                        if(data.errcode == "0000") {
                             window.location.href = 'activity_detail.php?activity_id=' + data.id;
                         }
                     },

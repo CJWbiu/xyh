@@ -82,113 +82,137 @@ if($_GET['action'] == 'getList') {
 
 //点赞
 if(isset($_GET['action']) && $_GET['action'] == 'like') {
-    if(!isset($_COOKIE['username'])) {
-        echo '{"errcode":"1000","errmsg": "请登录"}';
-        exit();
-    }
-    $act_id = $_GET['act_id'];
-    $sql = "SELECT id FROM act_like WHERE user_name='{$_COOKIE['username']}'LIMIT 1";
-    if(_fetch_array($sql)) {
-        echo '{"errcode":"1001","errmsg": "已点赞"}';
-        _close();
-    }else {
-        _query("UPDATE activity_list SET l_like=l_like+1 WHERE id='{$act_id}'");
-        if(_affected_rows() == 1) {
-            echo '{"errcode":"0000","errmsg":"修改成功"}';
+    if(_is_login("username")) {
+        $act_id = $_GET['act_id'];
+        $sql = "SELECT id FROM act_like WHERE user_name='{$_COOKIE['username']}'LIMIT 1";
+        if(_fetch_array($sql)) {
+            echo '{"errcode":"2000","errmsg": "已点赞"}';
             _close();
         }else {
-            echo '{"errcode":"0001","errmsg":"修改失败"}';
-            _close();
+            _query("UPDATE activity_list SET l_like=l_like+1 WHERE id='{$act_id}'");
+            if(_affected_rows() == 1) {
+                echo '{"errcode":"0000","errmsg":"修改成功"}';
+                _close();
+            }else {
+                echo '{"errcode":"2001","errmsg":"修改失败"}';
+                _close();
+            }
         }
+    }else {
+        echo '{"errcode":"1000","errmsg": "请登录"}';
+        exit();
     }
 }
 
 if(isset($_GET['action']) && $_GET['action'] == 'join') {
-    if(isset($_COOKIE['username'])) {
-        if(_fetch_array("SELECT u_id FROM user WHERE u_name = '{$_COOKIE['username']}' LIMIT 1")) {
-            if(_fetch_array("SELECT t_id FROM ticket WHERE t_user = '{$_COOKIE['username']}' AND t_act_id = '{$_GET['act_id']}'")) {
-                echo '{"errcode": "0002","errmsg":"已经报过名"}';
+    if(_is_login('username')) {
+        if(_fetch_array("SELECT t_id FROM ticket WHERE t_user = '{$_COOKIE['username']}' AND t_act_id = '{$_GET['act_id']}'")) {
+            echo '{"errcode": "3000","errmsg":"已经报过名"}';
+            _close();
+        }else {
+            _query("
+                INSERT INTO ticket (
+                                    t_act_id,
+                                    t_user,
+                                    t_end,
+                                    t_start,
+                                    t_title,
+                                    t_place
+                                )
+                            VALUES (
+                                    '{$_GET['act_id']}',
+                                    '{$_COOKIE['username']}',
+                                    '{$_GET['end']}',
+                                    '{$_GET['start']}',
+                                    '{$_GET['title']}',
+                                    '{$_GET['place']}'
+                                ) 
+                ");
+            if(mysql_affected_rows()==1){
+                $_id=_insert_id();
+                echo '{"errcode": "0000","t_id":"'.$_id.'"}';
                 _close();
             }else {
-                _query("
-                    INSERT INTO ticket (
-                                        t_act_id,
-                                        t_user,
-                                        t_end
-                                    )
-                                VALUES (
-                                        '{$_GET['act_id']}',
-                                        '{$_COOKIE['username']}',
-                                        '{$_GET['end']}'
-                                    ) 
-                    ");
-                if(mysql_affected_rows()==1){
-                    $_id=_insert_id();
-                    echo '{"errcode": "0000","t_id":'.$_id.'"}';
-                    _close();
-                }else {
-                    echo '{"errcode": "0001","errmsg":"报名失败"}';
-                    _close();
-                }
+                echo '{"errcode": "3001","errmsg":"报名失败"}';
+                _close();
             }
         }
+    }else {
+        echo '{"errcode": "1000", "errmsg":"请登录"}';
     }
+}
 
-
+if(isset($_GET['action']) && $_GET['action'] == 'all_ticket') {
+    if(_is_login('username')) {
+        $ticket_list = array();
+        $sql = "SELECT * FROM ticket WHERE t_user = '{$_COOKIE['username']}'";
+        $tickets = _query($sql);
+        while($ticket = mysql_fetch_array($tickets,MYSQL_ASSOC)) {
+            array_push($ticket_list, $ticket);
+        }
+        echo json_encode($ticket_list);
+    }else {
+        echo '{"errcode": "1000", "errmsg":"请登录"}';
+    }
 }
 
 //添加活动
 if(isset($_POST['action'])) {
     if($_POST['action'] == 'add_activity') {
-        $info = array();
-        $allowType=array('jpeg','gif','png','jpg');
-        $info['img'] = _uploadFile($_FILES['img'],$allowType);
-        $info['title'] = $_POST['title'];
-        $info['type'] = $_POST['type'];
-        $info['release'] = $_POST['release'];
-        $info['organizer'] = $_POST['organizer'];
-        $info['start'] = @strtotime($_POST['start']);
-        $info['end'] = @strtotime($_POST['end']);
-        $info['place'] = $_POST['place'];
-        $info['number'] = $_POST['number'];
-        $info['desc'] = $_POST['desc'];
+       if(_is_login("username")) {
+            $info = array();
+            $allowType=array('jpeg','gif','png','jpg');
+            $info['img'] = _uploadFile($_FILES['img'],$allowType);
+            $info['title'] = $_POST['title'];
+            $info['type'] = $_POST['type'];
+            $info['release'] = $_POST['release'];
+            $info['organizer'] = $_POST['organizer'];
+            $info['start'] = @strtotime($_POST['start']);
+            $info['end'] = @strtotime($_POST['end']);
+            $info['place'] = $_POST['place'];
+            $info['number'] = $_POST['number'];
+            $info['desc'] = $_POST['desc'];
 
-        _query(
-            "INSERT INTO activity_list(
-                                l_title,
-                                l_type,
-                                l_release,
-                                l_organizer,
-                                l_start,
-                                l_end,
-                                l_place,
-                                l_number,
-                                l_desc,
-                                l_img
-                            ) 
-                      VALUES(
-                                '{$info['title']}',
-                                '{$info['type']}',
-                                '{$info['release']}',
-                                '{$info['organizer']}',
-                                '{$info['start']}',
-                                '{$info['end']}',
-                                '{$info['place']}',
-                                '{$info['number']}',
-                                '{$info['desc']}',
-                                '{$info['img']}'
-                                )"
-            );
-        //判断是否修改成功
-        if(mysql_affected_rows()==1){
-            //获取新增的ID
-            $_id=_insert_id();
-            _close();
-            echo '{"errcode":0,"id":'.$_id.'}';
-        }else{
-            _close();
-            echo '{"errcode":1,"errmsg":"数据库写入失败"}';
-        }
+            _query(
+                "INSERT INTO activity_list(
+                                    l_title,
+                                    l_type,
+                                    l_release,
+                                    l_organizer,
+                                    l_start,
+                                    l_end,
+                                    l_place,
+                                    l_number,
+                                    l_desc,
+                                    l_img
+                                ) 
+                        VALUES(
+                                    '{$info['title']}',
+                                    '{$info['type']}',
+                                    '{$info['release']}',
+                                    '{$info['organizer']}',
+                                    '{$info['start']}',
+                                    '{$info['end']}',
+                                    '{$info['place']}',
+                                    '{$info['number']}',
+                                    '{$info['desc']}',
+                                    '{$info['img']}'
+                                    )"
+                );
+            //判断是否修改成功
+            if(mysql_affected_rows()==1){
+                //获取新增的ID
+                $_id=_insert_id();
+                _close();
+                echo '{"errcode":"0000","id":'.$_id.'}';
+            }else{
+                _close();
+                echo '{"errcode":"4000","errmsg":"数据库写入失败"}';
+            }
+       }else {
+           echo '{"errcode": "1000","errmsg":"请登录"}';
+           exit();
+       }
     }
 }
 ?>

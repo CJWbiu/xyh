@@ -2,10 +2,13 @@
 require dirname(__FILE__).'./include/common.php';
 $msg = '';
 $isenroll = true;
-if(isset($_GET['activity_id'])) {
+if(isset($_GET['activity_id']) && _is_login("username")) {
     $detail = _fetch_array("SELECT * FROM activity_list WHERE id ='{$_GET['activity_id']}'");
     _query("UPDATE activity_list SET l_read=l_read+1 WHERE id='{$_GET['activity_id']}'");
-    // print_r($detail);
+
+    $all = _query("SELECT COUNT(*) FROM ticket WHERE t_user = '{$_COOKIE['username']}'");
+    $total=mysql_result($all,0);
+
     if(@strtotime(date("Y-m-d H:i")) - $detail['l_end'] < 0) {
         if(_fetch_array("SELECT t_id FROM ticket WHERE t_user = '{$_COOKIE['username']}' AND t_act_id = '{$detail['id']}'")) {
             $msg = "已报名";
@@ -22,8 +25,6 @@ if(isset($_GET['activity_id'])) {
     }
     $detail['l_start'] = @date("Y-m-d H:i",$detail['l_start']);
     $detail['l_end'] = @date("Y-m-d H:i",$detail['l_end']);
-    echo $msg;
-    echo $isenroll;
 }
 
 ?>
@@ -32,7 +33,7 @@ if(isset($_GET['activity_id'])) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximun-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="./css/reset.css">
     <link rel="stylesheet" href="./assert/awesome/iconfont.css">
@@ -45,17 +46,14 @@ if(isset($_GET['activity_id'])) {
 </div>
 <ul class="activity-info">
     <li>组织：<?php echo $detail['l_organizer'] ?></li>
-    <li>时间：<?php echo $detail['l_start'] ?></li>
+    <li>时间：<?php echo $detail['l_start'].' ~ '.$detail['l_end']?></li>
     <li>地点：<?php echo $detail['l_place'] ?></li>
     <li>
         人数： <?php echo $detail['l_number'] ?>
-        <span class="exist" v-if="detail.exist>0">(已有{{detail.exist}}人参加)</span>
+        <span class="exist">(已有<?php  echo $total; ?>人参加)</span>
     </li>
     <li>
-        距结束报名：<span>{{surplus.day}}天后</span>
-        <span class="box">{{surplus.hour}}</span>:
-        <span class="box">{{surplus.minute}}</span>:    
-        <span class="box">{{surplus.second}}</span>
+        距结束报名：<span id="time"></span>
     </li>
 </ul>
 <div class="item">
@@ -102,7 +100,43 @@ if(isset($_GET['activity_id'])) {
     </div>
 </footer>
 
+
 <script src="./js/jquery.js"></script>  
 <script src="./js/activity_detail.js"></script>
+<script>
+let endTime = "<?php echo $detail['l_end'] ?>";
+endTime = new Date(endTime).getTime();
+
+timer();
+
+function timer() {
+    const set = function(num) {
+            if(num < 10) {
+                return "0" + num;
+            }else {
+                return num;
+            }
+        };
+    let now = new Date().getTime();
+    let res = endTime - now;
+    let day = Math.floor(res/(1000*3600*24));
+    res = res%(1000*3600*24);
+    let hour = Math.floor(res/(1000*3600));
+    res = res%(1000*3600);
+    let minute = Math.floor(res/(1000*60));
+    res = res%(1000*60);
+    let second = Math.floor(res/1000);
+    let str = `
+        <span class="day">${set(day)}天后</span>
+        <span class="box">${set(hour)}</span>:
+        <span class="box">${set(minute)}</span>:    
+        <span class="box">${set(second)}</span>`;
+    document.querySelector('#time').innerHTML = str;
+    setTimeout(() => {
+        timer();
+    }, 500);
+}
+</script>
+
 </body>
 </html>

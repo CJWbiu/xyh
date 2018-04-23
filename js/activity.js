@@ -162,7 +162,7 @@ $(function() {
 
             let isEnded = (!isEnd(item)) ? '' : 'end';
             let endMsg = (!isEnd(item)) ? '报名中' : '报名截止';
-            let attend = `<span onclick="join(${item.id},'${item.l_end}')" data-id="${item.id}" data-end="${item.l_end}" class="jointo">报名</span>`;
+            let attend = `<span onclick="join(${item.id},'${item.l_end}','${item.l_start}','${item.l_title}','${item.l_place}')" data-id="${item.id}" data-end="${item.l_end}" class="jointo">报名</span>`;
             let nattend = `报名截止`;
             let attendMsg = (!isEnd(item)) ? attend : nattend;
 
@@ -208,28 +208,29 @@ function like(id) {
     $.get('verification.php?action=like&act_id=' + id, function(res) {
         res = JSON.parse(res);
         console.log(res);
-        if(res.errcode == 1000) {
+        if(res.errcode == "1000") {
             window.location.href = 'login.php';
         }
     })
 }
 
-function join(id,end) {
+function join(id,end,start,title,place) {
     end = new Date(end).getTime();
-    $.get('verification.php?action=join&act_id=' + id + '&end=' + end, function(res) {
-        // res = JSON.parse(res);
-        console.log(res);
+    $.get('verification.php?action=join&act_id=' + id + '&end=' + end + '&start=' + start + '&title=' + title + '&place=' + place, function(res) {
+       
         try{
             res = JSON.parse(res);
+            console.log(res);
             if(res.errcode == '0000') {
                 window.location.href = 'ticket.php?t_id=' + res.t_id;
-            }else if(res.errcode == '0002') {
+            }else if(res.errcode == '3000') {
                 alert('已经报过名了');
-                window.location.href = 'ticket_list.php';
+                window.location.href = 'ticket_list.php?action=all_ticket';
             }else {
                 alert('报名失败');
             }
         }catch(e) {
+            console.log(e)
             console.log(res);
             return;
         }
