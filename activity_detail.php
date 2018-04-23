@@ -104,38 +104,38 @@ if(isset($_GET['activity_id']) && _is_login("username")) {
 <script src="./js/jquery.js"></script>  
 <script src="./js/activity_detail.js"></script>
 <script>
-let endTime = "<?php echo $detail['l_end'] ?>";
-endTime = new Date(endTime).getTime();
+    let endTime = "<?php echo $detail['l_end'] ?>";
+    endTime = new Date(endTime).getTime();
 
-timer();
+    timer();
 
-function timer() {
-    const set = function(num) {
-            if(num < 10) {
-                return "0" + num;
-            }else {
-                return num;
-            }
-        };
-    let now = new Date().getTime();
-    let res = endTime - now;
-    let day = Math.floor(res/(1000*3600*24));
-    res = res%(1000*3600*24);
-    let hour = Math.floor(res/(1000*3600));
-    res = res%(1000*3600);
-    let minute = Math.floor(res/(1000*60));
-    res = res%(1000*60);
-    let second = Math.floor(res/1000);
-    let str = `
-        <span class="day">${set(day)}天后</span>
-        <span class="box">${set(hour)}</span>:
-        <span class="box">${set(minute)}</span>:    
-        <span class="box">${set(second)}</span>`;
-    document.querySelector('#time').innerHTML = str;
-    setTimeout(() => {
-        timer();
-    }, 500);
-}
+    function timer() {
+        const set = function(num) {
+                if(num < 10) {
+                    return "0" + num;
+                }else {
+                    return num;
+                }
+            };
+        let now = new Date().getTime();
+        let res = endTime - now;
+        let day = Math.floor(res/(1000*3600*24));
+        res = res%(1000*3600*24);
+        let hour = Math.floor(res/(1000*3600));
+        res = res%(1000*3600);
+        let minute = Math.floor(res/(1000*60));
+        res = res%(1000*60);
+        let second = Math.floor(res/1000);
+        let str = `
+            <span class="day">${set(day)}天后</span>
+            <span class="box">${set(hour)}</span>:
+            <span class="box">${set(minute)}</span>:    
+            <span class="box">${set(second)}</span>`;
+        document.querySelector('#time').innerHTML = str;
+        setTimeout(() => {
+            timer();
+        }, 500);
+    }
 </script>
 
 </body>
