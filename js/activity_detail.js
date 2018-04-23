@@ -14,11 +14,24 @@ $(function() {
             let id = $(this).children(0).get(0).dataset.id;
             let end = $(this).children(0).get(0).dataset.end;
             let flag = $(this).children(0).get(0).dataset.flag;
+            let start = $(this).children(0).get(0).dataset.start;
+            let place = $(this).children(0).get(0).dataset.place;
+            let title = $(this).children(0).get(0).dataset.title;
             if(!flag) {
                 return;
             }else {
                 end = new Date(end).getTime();
-                $.get('verification.php?action=join&act_id=' + id + '&end=' + end, function(res) {
+                start = new Date(start).getTime();
+                let data = {
+                    "action": "join" ,
+                    "act_id": id,
+                    "end": end,
+                    "start": start,
+                    "place": place,
+                    "title": title
+                };
+                console.log(data);
+                $.post('verification.php', data, function(res) {
                     console.log(res);
                     try{
                         res = JSON.parse(res);

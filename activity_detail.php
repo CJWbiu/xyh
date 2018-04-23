@@ -81,7 +81,15 @@ if(isset($_GET['activity_id']) && _is_login("username")) {
         </ul>
     </div> 
     <div class="add-act">
-        <a href="javascript:;" data-flag="<?php echo $isenroll; ?>" data-id="<?php echo $detail['id']; ?>" data-end="<?php echo $detail['l_end']; ?>">
+        <a href="javascript:;"
+            data-flag="<?php echo $isenroll; ?>" 
+            data-flag="<?php echo $isenroll; ?>" 
+            data-id="<?php echo $detail['id']; ?>" 
+            data-end="<?php echo $detail['l_end']; ?>"
+            data-start="<?php echo $detail['l_start']; ?>"
+            data-place="<?php echo $detail['l_place']; ?>"
+            data-title="<?php echo $detail['l_title']; ?>"
+        >
             <?php echo $msg; ?>
         </a>
     </div> 

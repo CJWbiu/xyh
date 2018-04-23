@@ -104,7 +104,7 @@ if(isset($_GET['action']) && $_GET['action'] == 'like') {
     }
 }
 
-if(isset($_GET['action']) && $_GET['action'] == 'join') {
+if(isset($_POST['action']) && $_POST['action'] == 'join') {
     if(_is_login('username')) {
         if(_fetch_array("SELECT t_id FROM ticket WHERE t_user = '{$_COOKIE['username']}' AND t_act_id = '{$_GET['act_id']}'")) {
             echo '{"errcode": "3000","errmsg":"已经报过名"}';
@@ -120,12 +120,12 @@ if(isset($_GET['action']) && $_GET['action'] == 'join') {
                                     t_place
                                 )
                             VALUES (
-                                    '{$_GET['act_id']}',
+                                    '{$_POST['act_id']}',
                                     '{$_COOKIE['username']}',
-                                    '{$_GET['end']}',
-                                    '{$_GET['start']}',
-                                    '{$_GET['title']}',
-                                    '{$_GET['place']}'
+                                    '{$_POST['end']}',
+                                    '{$_POST['start']}',
+                                    '{$_POST['title']}',
+                                    '{$_POST['place']}'
                                 ) 
                 ");
             if(mysql_affected_rows()==1){
