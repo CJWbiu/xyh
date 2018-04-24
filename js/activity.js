@@ -197,7 +197,7 @@ $(function() {
                         ${attendMsg}
                     </span>
                     <span><span class="icon icon-comment" style="color: #b39218;"></span>0</span>
-                    <span class="like" onclick="like(${item.id})" data-id="${item.id}"><span class="icon icon-like" style="color: #3642da;"></span>${item.l_like}</span>
+                    <span class="like" onclick="like(${item.id},this)" data-id="${item.id}"><span class="icon icon-like" style="color: #3642da;"></span><span style="display:inline;" class="likenum">${item.l_like}</span></span>
                     <span><span class="icon icon-eye" style="color: #17ce14;"></span>${item.l_read}</span>
                 </div>
             </div>
@@ -210,14 +210,15 @@ $(function() {
     }
     
 })
-function like(id) {
-    console.log(id);
-    return;
+function like(id, item) {
+    console.log(item);
     $.get('verification.php?action=like&act_id=' + id, function(res) {
         res = JSON.parse(res);
         console.log(res);
         if(res.errcode == "1000") {
             window.location.href = 'login.php';
+        }else if(res.errcode == '0000') {
+            $(item).find('.likenum').html(parseInt($(item).find('.likenum').html()) + 1);
         }
     })
 }

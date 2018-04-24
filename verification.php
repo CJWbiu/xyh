@@ -79,6 +79,9 @@ if($_GET['action'] == 'getList') {
             }else {
                 $row['isenroll'] = false;
             }
+            $alllike = _query("SELECT COUNT(*) FROM act_like WHERE act_id = '{$row['id']}'");
+            $likenum=mysql_result($alllike,0);
+            $row['l_like'] = $likenum;
             array_push($list, $row);
         }
         echo json_encode($list);
@@ -90,12 +93,22 @@ if($_GET['action'] == 'getList') {
 if(isset($_GET['action']) && $_GET['action'] == 'like') {
     if(_is_login("username")) {
         $act_id = $_GET['act_id'];
-        $sql = "SELECT id FROM act_like WHERE user_name='{$_COOKIE['username']}'LIMIT 1";
+        $sql = "SELECT id FROM act_like WHERE user_name='{$_COOKIE['username']}' AND act_id = '{$act_id}'";
+        
         if(_fetch_array($sql)) {
             echo '{"errcode":"2000","errmsg": "已点赞"}';
             _close();
         }else {
-            _query("UPDATE activity_list SET l_like=l_like+1 WHERE id='{$act_id}'");
+            _query("
+                INSERT INTO act_like (
+                                    act_id,
+                                    user_name
+                                )
+                            VALUES (
+                                    '{$act_id}',
+                                    '{$_COOKIE['username']}'
+                                ) 
+                ");
             if(_affected_rows() == 1) {
                 echo '{"errcode":"0000","errmsg":"修改成功"}';
                 _close();
