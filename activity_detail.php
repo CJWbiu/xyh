@@ -102,6 +102,11 @@
 </div>
 
 <div class="item">
+    <h3 class="item-title">详情介绍</h3>
+    <div class="title-content"><?php echo $detail['l_desc']?></div>
+</div>
+
+<div class="item">
     <h3 class="item-title">讨论交流</h3>
     <div class="comment">
     <?php for($i = 0; $i < sizeof($comment_box); $i++) { ?>
