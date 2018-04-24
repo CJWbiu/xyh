@@ -1,31 +1,31 @@
 <?php
-require dirname(__FILE__).'./include/common.php';
-$msg = '';
-$isenroll = true;
-if(isset($_GET['activity_id']) && _is_login("username")) {
-    $detail = _fetch_array("SELECT * FROM activity_list WHERE id ='{$_GET['activity_id']}'");
-    _query("UPDATE activity_list SET l_read=l_read+1 WHERE id='{$_GET['activity_id']}'");
+    require dirname(__FILE__).'./include/common.php';
+    $msg = '';
+    $isenroll = true;
+    if(isset($_GET['activity_id']) && _is_login("username")) {
+        $detail = _fetch_array("SELECT * FROM activity_list WHERE id ='{$_GET['activity_id']}'");
+        _query("UPDATE activity_list SET l_read=l_read+1 WHERE id='{$_GET['activity_id']}'");
 
-    $all = _query("SELECT COUNT(*) FROM ticket WHERE t_user = '{$_COOKIE['username']}'");
-    $total=mysql_result($all,0);
+        $all = _query("SELECT COUNT(*) FROM ticket WHERE t_user = '{$_COOKIE['username']}'");
+        $total=mysql_result($all,0);
 
-    if(@strtotime(date("Y-m-d H:i")) - $detail['l_end'] < 0) {
-        if(_fetch_array("SELECT t_id FROM ticket WHERE t_user = '{$_COOKIE['username']}' AND t_act_id = '{$detail['id']}'")) {
-            $msg = "已报名(取消报名)";
-            $isenroll = 2;
-            _close();
+        if(@strtotime(date("Y-m-d H:i")) - $detail['l_end'] < 0) {
+            if(_fetch_array("SELECT t_id FROM ticket WHERE t_user = '{$_COOKIE['username']}' AND t_act_id = '{$detail['id']}'")) {
+                $msg = "已报名(取消报名)";
+                $isenroll = 2;
+                _close();
+            }else {
+                $msg = "报名";
+                $isenroll = 1;
+                _close();
+            }
         }else {
-            $msg = "报名";
-            $isenroll = 1;
-            _close();
+            $msg = "已过期";
+                $isenroll = 0;
         }
-    }else {
-        $msg = "已过期";
-            $isenroll = 0;
+        $detail['l_start'] = @date("Y-m-d H:i",$detail['l_start']);
+        $detail['l_end'] = @date("Y-m-d H:i",$detail['l_end']);
     }
-    $detail['l_start'] = @date("Y-m-d H:i",$detail['l_start']);
-    $detail['l_end'] = @date("Y-m-d H:i",$detail['l_end']);
-}
 
 ?>
 
@@ -69,6 +69,33 @@ if(isset($_GET['activity_id']) && _is_login("username")) {
 <div class="item">
     <h3 class="item-title">讨论交流</h3>
     <div class="comment">
+        <div class="all-day">
+            <p class="d-time">2018-04-05</p>
+            <div class="c-item">
+                <div class="c-avatar"></div>
+                <div class="c-info">
+                    <p class="c-top">
+                        <span class="c-name">cheng</span>
+                        <span class="c-time">23:56</span>
+                    </p>
+                    <p class="c-bottom">期待</p>
+                </div>
+            </div>
+            <div class="c-item me">
+                <div class="c-avatar"></div>
+                <div class="c-info">
+                    <p class="c-top">
+                        <span class="c-name">cheng</span>
+                        <span class="c-time">23:56</span>
+                    </p>
+                    <p class="c-bottom">期待</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="msg-send">
+        <input type="text" id="s-msg">
+        <button id="send">发送</button>
     </div>
 </div>
 

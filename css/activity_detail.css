@@ -3,7 +3,9 @@
 body, html {
     background: #eee;
 }
-
+* {
+    box-sizing: border-box !important;
+}
 .img-wrapper {
     width: 100%;
     height: 180px;
@@ -104,4 +106,115 @@ body, html {
     border-right: 2px solid #e4e4e4;
     border-top: 2px solid #e4e4e4;
     transform: rotate(45deg);
+}
+
+.item .comment {
+    width: 100%;
+    padding: 10px;
+}
+.comment .all-day {
+    width: 100%;
+}
+.d-time {
+    width: 120px;
+    height: 40px;
+    border-radius: 10px;
+    line-height: 40px;
+    text-align: center;
+    color: #fff;
+    background: #ccc;
+    margin: 5px auto;
+}
+.c-item {
+    width: 100%;
+    overflow: hidden;
+    padding-bottom: 10px;
+}
+.c-item > .c-avatar {
+    width: 60px;
+    height: 60px;
+    background: #eee;
+    float: left;
+    margin-right: 10px;
+}
+.c-item > .c-info {
+    float: left;
+}
+.c-info .c-bottom {
+    min-width: 50px;
+    padding: 10px;
+    line-height: 1.5em;
+    font-size: 16px;
+    color: #333;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 1px 1px 5px 3px #eee;
+    margin-top: 10px;
+    margin-left: 25px;
+    position: relative;
+}
+.c-bottom::after {
+    display: block;
+    content: '';
+    width: 0;
+    height: 0;
+    border: 10px solid transparent;
+    border-right-color: #eee;
+    position: absolute;
+    top: 5px;
+    left: -20px;
+}
+.msg-send {
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    box-sizing: border-box;
+    border-top: 1px solid #eee;
+}
+#s-msg {
+    display: block;
+    flex: 6;
+    height: 40px;
+    line-height: 40px;
+    border: 1px solid #eee;
+    border-radius: 5px;
+}
+#send {
+    display: block;
+    flex: 1;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 5px;
+    background: #4caf50;
+    text-align: center;
+    color: #fff;
+    font-size: 18px;
+    margin-left: 10px;
+}
+.c-item.me > .c-avatar, .c-item.me > .c-info {
+    float: right;
+}
+.c-item.me > .c-avatar {
+    margin-right: 0;
+    margin-left: 10px;
+}
+.c-item.me .c-bottom {
+    margin-right: 25px;
+    margin-left: 0;
+}
+.c-item.me .c-bottom::after {
+    display: none;
+}
+.c-item.me .c-bottom::before {
+    display: block;
+    content: '';
+    width: 0;
+    height: 0;
+    border: 10px solid transparent;
+    border-left-color: #eee;
+    position: absolute;
+    top: 5px;
+    right: -20px;
 }
