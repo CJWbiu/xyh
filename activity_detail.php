@@ -81,7 +81,14 @@
         <span class="exist">(已有<?php  echo $total; ?>人参加)</span>
     </li>
     <li>
-        距结束报名：<span id="time"></span>
+        距结束报名：
+        <?php 
+            if($isenroll == 0) {
+                echo $msg;
+            }else {
+                echo '<span id="time"></span>';
+            }
+        ?>
     </li>
 </ul>
 <div class="item">
@@ -172,31 +179,35 @@
     timer();
 
     function timer() {
-        const set = function(num) {
+        if(document.querySelector('#time')) {
+            const set = function(num) {
                 if(num < 10) {
                     return "0" + num;
                 }else {
                     return num;
                 }
             };
-        let now = new Date().getTime();
-        let res = endTime - now;
-        let day = Math.floor(res/(1000*3600*24));
-        res = res%(1000*3600*24);
-        let hour = Math.floor(res/(1000*3600));
-        res = res%(1000*3600);
-        let minute = Math.floor(res/(1000*60));
-        res = res%(1000*60);
-        let second = Math.floor(res/1000);
-        let str = `
-            <span class="day">${set(day)}天后</span>
-            <span class="box">${set(hour)}</span>:
-            <span class="box">${set(minute)}</span>:    
-            <span class="box">${set(second)}</span>`;
-        document.querySelector('#time').innerHTML = str;
-        setTimeout(() => {
-            timer();
-        }, 500);
+            let now = new Date().getTime();
+            let res = endTime - now;
+            let day = Math.floor(res/(1000*3600*24));
+            res = res%(1000*3600*24);
+            let hour = Math.floor(res/(1000*3600));
+            res = res%(1000*3600);
+            let minute = Math.floor(res/(1000*60));
+            res = res%(1000*60);
+            let second = Math.floor(res/1000);
+            let str = `
+                <span class="day">${set(day)}天后</span>
+                <span class="box">${set(hour)}</span>:
+                <span class="box">${set(minute)}</span>:    
+                <span class="box">${set(second)}</span>`;
+            document.querySelector('#time').innerHTML = str;
+            setTimeout(() => {
+                timer();
+            }, 500);
+        }else {
+            return;
+        }
     }
 </script>
 
