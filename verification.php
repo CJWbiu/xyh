@@ -2,7 +2,7 @@
 require dirname(__FILE__).'./include/common.php';
 setcookie('username','cheng',time()+604800);
 
-//读取活动列表
+/** 读取活动列表 */
 if($_GET['action'] == 'getList') {
     $page = $_GET['page'];
     $pageSize = $_GET['size'];
@@ -93,7 +93,7 @@ if($_GET['action'] == 'getList') {
 
 }
 
-//点赞
+/** 点赞 */
 if(isset($_GET['action']) && $_GET['action'] == 'like') {
     if(_is_login("username")) {
         $act_id = $_GET['act_id'];
@@ -126,7 +126,7 @@ if(isset($_GET['action']) && $_GET['action'] == 'like') {
         exit();
     }
 }
-//报名
+/** 报名 */
 if(isset($_POST['action']) && $_POST['action'] == 'join') {
     if(_is_login('username')) {
         if(_fetch_array("SELECT t_id FROM ticket WHERE t_user = '{$_COOKIE['username']}' AND t_act_id = '{$_GET['act_id']}'")) {
@@ -164,7 +164,7 @@ if(isset($_POST['action']) && $_POST['action'] == 'join') {
         echo '{"errcode": "1000", "errmsg":"请登录"}';
     }
 }
-//取消报名
+/** 取消报名 */
 if(isset($_POST['action']) && $_POST['action'] == 'esc_join') {
     if(_is_login('username')) {
         $t_act_id = $_POST['t_act_id'];
@@ -181,7 +181,7 @@ if(isset($_POST['action']) && $_POST['action'] == 'esc_join') {
         exit();
     }
 }
-//读取电子票列表
+/** 读取电子票列表 */
 if(isset($_GET['action']) && $_GET['action'] == 'all_ticket') {
     if(_is_login('username')) {
         $ticket_list = array();
@@ -196,7 +196,7 @@ if(isset($_GET['action']) && $_GET['action'] == 'all_ticket') {
     }
 }
 
-//添加活动
+/** 添加活动 */
 if(isset($_POST['action']) && ($_POST['action'] == 'add_activity')) {
     if(_is_login("username")) {
         $info = array();
