@@ -59,5 +59,17 @@ $(function() {
                 })
             }
         })
+        $('#send').click(function() {
+            let act_id = $(this).get(0).dataset.id;
+            $.post('verification.php',{"action": "comment", "content":$('#s-msg').val(), "act_id": act_id}, function (res) { 
+                console.log(res);
+                res = JSON.parse(res);
+                if(res.errcode == '0000') {
+                    window.location.reload();
+                }else {
+                    alert(res.errmsg);
+                }
+             })
+        })
     }
 })

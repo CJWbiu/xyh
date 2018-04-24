@@ -17,6 +17,7 @@ body, html {
     background: #fff;
     position: relative;
     overflow: hidden;
+    margin-bottom: 10px;
 }
 .ticket-wrapper .ticket {
     width: 100%;

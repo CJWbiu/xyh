@@ -1,8 +1,36 @@
 <?php
     require dirname(__FILE__).'./include/common.php';
+
+    /** 获取活动id */
     $msg = '';
     $isenroll = true;
-    if(isset($_GET['activity_id']) && _is_login("username")) {
+    if(isset($_GET['activity_id'])) { 
+        /** 获取评论，将评论按日期分组排序 */
+        $c_res = _query("SELECT * FROM comment WHERE c_act_id = '{$_GET['activity_id']}' ORDER BY c_time ASC");
+        $comment_box = array();
+        $index = 0;
+        $comment_box[0] = array();
+        while($comment = mysql_fetch_array($c_res,MYSQL_ASSOC)) {
+            $comment['c_date'] = @date("Y-m-d",strtotime($comment['c_time']));
+            $comment['c_hour'] = @date("H:i",strtotime($comment['c_time']));
+            if($comment['c_user'] == $_COOKIE['username']) {
+                $comment['flag'] = 'me';
+            }else {
+                $comment['flag'] = '';
+            }
+
+            if(sizeof($comment_box[$index]) == 0) {
+                array_push($comment_box[$index],$comment);
+            }else if($comment_box[$index][sizeof($comment_box[$index]) - 1]["c_date"] != $comment['c_date']){
+                $index++;
+                $comment_box[$index] = array();
+                array_push($comment_box[$index], $comment);
+            }else {
+                array_push($comment_box[$index],$comment);
+            }
+        }
+
+        /** 获取活动详情 */
         $detail = _fetch_array("SELECT * FROM activity_list WHERE id ='{$_GET['activity_id']}'");
         _query("UPDATE activity_list SET l_read=l_read+1 WHERE id='{$_GET['activity_id']}'");
 
@@ -69,33 +97,32 @@
 <div class="item">
     <h3 class="item-title">讨论交流</h3>
     <div class="comment">
+    <?php for($i = 0; $i < sizeof($comment_box); $i++) { ?>
+
         <div class="all-day">
-            <p class="d-time">2018-04-05</p>
-            <div class="c-item">
+            <?php if(sizeof($comment_box[0]) > 0) {
+                echo '<p class="d-time">'.$comment_box[$i][0]['c_date'].'</p>';
+            } ?>
+        <?php for($j = 0; $j < sizeof($comment_box[$i]); $j++) {?>
+            <div class="c-item <?php echo $comment_box[$i][$j]['flag'];?>">
                 <div class="c-avatar"></div>
                 <div class="c-info">
                     <p class="c-top">
-                        <span class="c-name">cheng</span>
-                        <span class="c-time">23:56</span>
+                        <span class="c-name"><?php echo $comment_box[$i][$j]['c_date']; ?></span>
+                        <span class="c-time"><?php echo $comment_box[$i][$j]['c_hour']; ?></span>
                     </p>
-                    <p class="c-bottom">期待</p>
+                    <p class="c-bottom"><?php echo $comment_box[$i][$j]['c_content']; ?></p>
                 </div>
             </div>
-            <div class="c-item me">
-                <div class="c-avatar"></div>
-                <div class="c-info">
-                    <p class="c-top">
-                        <span class="c-name">cheng</span>
-                        <span class="c-time">23:56</span>
-                    </p>
-                    <p class="c-bottom">期待</p>
-                </div>
-            </div>
+        <?php } ?>
+            
         </div>
+
+    <?php } ?>
     </div>
     <div class="msg-send">
         <input type="text" id="s-msg">
-        <button id="send">发送</button>
+        <button id="send" data-id="<?php echo $_GET['activity_id'];?>">发送</button>
     </div>
 </div>
 
