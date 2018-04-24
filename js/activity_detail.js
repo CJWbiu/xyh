@@ -60,6 +60,9 @@ $(function() {
             }
         })
         $('#send').click(function() {
+            if($('#s-msg').val() == '') {
+                return;
+            }
             let act_id = $(this).get(0).dataset.id;
             $.post('verification.php',{"action": "comment", "content":$('#s-msg').val(), "act_id": act_id}, function (res) { 
                 console.log(res);
