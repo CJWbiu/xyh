@@ -24,14 +24,8 @@ function _select_db(){
 	}
 
 }
-/**
- * 销毁结果集
- * @param  [result] $_result 
- * @return [type]          
- */
-function _free_result($_result){
-	mysql_free_result($_result);
-}
+
+
 /**
 *_set_names() 设置字符集
 *@access public
@@ -61,36 +55,15 @@ function _insert_id(){
 	return mysql_insert_id();
 }
 
-
+/**
+ * 获取结果集 
+ * @$_sql 数据库语句
+ */
 function _fetch_array($_sql){
 	return mysql_fetch_array(_query($_sql),MYSQL_ASSOC);
 }
-/**
-*_fetch_array() mysql_fetch_array() 直接返回结果集
-*/
-function _fetch_array_list($_res){
-	return mysql_fetch_array($_res,MYSQL_ASSOC);
-}
-/**
-*_affected_rows() 返回记录行数
-*/
-function _affected_rows(){
-	return mysql_affected_rows();
-}
-/**
-*_is_repeat() 判断用户名是否重复
-*/
-function _is_repeat($_sql,$_info){
-	if(_fetch_array($_sql)){
-		_alert_back($_info);
-	}
-}
-/**
-*_num_rows() 返回数据表总行数
-*/
-function _num_rows($_result){
-	return mysql_num_rows($_result);
-}
+
+
 /**
 *_close() 关闭数据库
 */
@@ -101,6 +74,7 @@ function _close(){
 }
 /**
  * 判断用户是否登录
+ * @$key cookie存储字段
  */
 function _is_login($key){
 	if(isset($_COOKIE[$key]) && _fetch_array("SELECT u_id FROM user WHERE u_name = '{$_COOKIE[$key]}' LIMIT 1")) {

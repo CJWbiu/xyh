@@ -113,7 +113,7 @@ if(isset($_GET['action']) && $_GET['action'] == 'like') {
                                     '{$_COOKIE['username']}'
                                 ) 
                 ");
-            if(_affected_rows() == 1) {
+            if(mysql_affected_rows() == 1) {
                 echo '{"errcode":"0000","errmsg":"修改成功"}';
                 _close();
             }else {
@@ -169,7 +169,7 @@ if(isset($_POST['action']) && $_POST['action'] == 'esc_join') {
     if(_is_login('username')) {
         $t_act_id = $_POST['t_act_id'];
         _query("DELETE FROM ticket WHERE t_act_id = '{$t_act_id}' AND t_user = '{$_COOKIE['username']}'");
-        if(_affected_rows() == 1) {
+        if(mysql_affected_rows() == 1) {
             echo '{"errcode":"0000","errmsg":"修改成功"}';
             _close();
         }else {
