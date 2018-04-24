@@ -34,7 +34,7 @@
         $detail = _fetch_array("SELECT * FROM activity_list WHERE id ='{$_GET['activity_id']}'");
         _query("UPDATE activity_list SET l_read=l_read+1 WHERE id='{$_GET['activity_id']}'");
 
-        $all = _query("SELECT COUNT(*) FROM ticket WHERE t_user = '{$_COOKIE['username']}'");
+        $all = _query("SELECT COUNT(*) FROM ticket WHERE t_user = '{$_COOKIE['username']}' AND t_act_id = '{$detail['id']}'");
         $total=mysql_result($all,0);
 
         if(@strtotime(date("Y-m-d H:i")) - $detail['l_end'] < 0) {
