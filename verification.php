@@ -73,7 +73,7 @@ if($_GET['action'] == 'getList') {
         while($row = mysql_fetch_array($result,MYSQL_ASSOC)) {
             $row['l_start'] = @date("Y-m-d H:i",$row['l_start']);
             $row['l_end'] = @date("Y-m-d H:i",$row['l_end']);
-            //判断是否已报名
+            /** 判断是否已报名 */
             if(_fetch_array("SELECT t_id FROM ticket WHERE t_user = '{$_COOKIE['username']}' AND t_act_id = '{$row['id']}'")) {
                 $row['isenroll'] = true;
             }else {
@@ -82,6 +82,10 @@ if($_GET['action'] == 'getList') {
             $alllike = _query("SELECT COUNT(*) FROM act_like WHERE act_id = '{$row['id']}'");
             $likenum=mysql_result($alllike,0);
             $row['l_like'] = $likenum;
+            /** 获取评论数 */
+            $all_comment = _query("SELECT COUNT(*) FROM comment WHERE c_act_id = '{$row['id']}'");
+            $comment_total = mysql_result($all_comment,0);
+            $row['l_comment'] = $comment_total;
             array_push($list, $row);
         }
         echo json_encode($list);

@@ -196,7 +196,7 @@ $(function() {
                     <span class="is-enroll">
                         ${attendMsg}
                     </span>
-                    <span><span class="icon icon-comment" style="color: #b39218;"></span>0</span>
+                    <span><span class="icon icon-comment" style="color: #b39218;"></span>${item.l_comment}</span>
                     <span class="like" onclick="like(${item.id},this)" data-id="${item.id}"><span class="icon icon-like" style="color: #3642da;"></span><span style="display:inline;" class="likenum">${item.l_like}</span></span>
                     <span><span class="icon icon-eye" style="color: #17ce14;"></span>${item.l_read}</span>
                 </div>
