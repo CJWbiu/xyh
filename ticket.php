@@ -1,5 +1,5 @@
 <?php
-require dirname(__FILE__).'./include/common.php';
+require dirname(__FILE__).'/include/common.php';
 if(_is_login('username')) {
     $detail = _fetch_array("SELECT * FROM ticket WHERE t_id ='{$_GET['t_id']}'");
     $start = date("Y-m-d H:i",($detail['t_start']/1000));

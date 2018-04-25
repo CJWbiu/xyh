@@ -1,5 +1,5 @@
 <?php
-    require dirname(__FILE__).'./include/common.php';
+    require dirname(__FILE__).'/include/common.php';
 
     /** 获取活动id */
     $msg = '';

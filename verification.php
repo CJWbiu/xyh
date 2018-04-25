@@ -1,5 +1,5 @@
 <?php
-require dirname(__FILE__).'./include/common.php';
+require dirname(__FILE__).'/include/common.php';
 setcookie('username','cheng',time()+604800);
 
 /** 读取活动列表 */
