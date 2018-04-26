@@ -2,6 +2,69 @@
 require dirname(__FILE__).'/include/common.php';
 setcookie('username','cheng',time()+604800);
 
+/** 登录验证 */
+if(isset($_POST['action']) && $_POST['action'] == "login") {
+    $username = $_POST['name'];
+    if(_is_exist($username)) {
+
+        $l_result = _query("SELECT * FROM people WHERE name = '{$username}' LIMIT 1");
+        
+        $l_row = mysql_fetch_array($l_result,MYSQL_ASSOC);
+
+        if($_POST['psw'] != $l_row['password']) {
+            echo '{"errcode": "5001","errmsg":"密码错误"}';
+            _close();
+            exit;
+        }else {
+            echo '{"errcode": "0000"}';
+            setcookie("username",$username, time()+3600*24);
+            _close();
+            exit;
+        }
+    }else {
+        echo '{"errcode": "5000","errmsg":"用户不存在"}';
+        _close();
+        exit;
+    }
+}
+
+/** 注册 */
+if(isset($_POST['action']) && $_POST['action'] == "register") {
+    $r_name = $_POST['name'];
+    $r_email = $_POST['email'];
+    $r_psw = $_POST['psw'];
+    if(_is_exist($r_name)) {
+        echo '{"errcode": "5002", "errmsg": "用户名已存在"}';
+        _close();
+        exit;
+    }else {
+        _query("
+            INSERT INTO people(
+                            name,
+                            password,
+                            email
+                        )
+                        VALUES(
+                            '{$r_name}',
+                            '{$r_password}',
+                            '{$r_psw}'
+                        )
+        ");
+        if(mysql_affected_rows()==1){
+            //获取新增的ID
+            $_id=_insert_id();
+            _close();
+            echo '{"errcode":"0000","id":'.$_id.'}';
+            setcookie("username",$username, time()+3600*24);
+            exit;
+        }else{
+            _close();
+            echo '{"errcode":"5003","errmsg":"注册失败"}';
+            exit;
+        }
+    }
+}
+
 /** 读取活动列表 */
 if($_GET['action'] == 'getList') {
     $page = $_GET['page'];

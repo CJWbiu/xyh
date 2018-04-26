@@ -1,0 +1,121 @@
+*{
+    box-sizing: border-box !important;
+}
+body, html {
+    background: #fff;
+}
+.container {
+    width: 100%;
+    padding: 20px;
+    position: relative;
+}
+.container .logo {
+    width: 100px;
+    height: 100px;
+    background-image: url("../assert/icon/logon.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    margin: 80px auto;
+}
+.form-wrapper {
+    width: 100%;
+    border: 1px solid #eee;
+    border-radius: 3px;
+}
+.form-wrapper .item {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    height: 50px;
+    line-height: 50px;
+    font-size: 18px;
+    border-bottom: 1px solid #eee;
+}
+.form-wrapper .item:last-child {
+    border-bottom: none;
+}
+.form-wrapper .icon {
+    flex: 1;
+    display: block;
+    height: 100%;
+}
+.icon.user { 
+    background-image: url("../assert/icon/user.png");
+}
+.icon.psw { 
+    background-image: url("../assert/icon/psw.png");
+}
+.icon.email { 
+    background-image: url("../assert/icon/email.png");
+}
+
+.icon.user, .icon.psw, .icon.email {
+    background-repeat: no-repeat;
+    background-size: 25px;
+    background-position: center;
+}
+
+.form-wrapper input {
+    flex: 4;
+    display: block;
+    height: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+}
+.form-wrapper .clear {
+    flex: 1;
+    display: block;
+}
+.circle {
+    display: block;
+    width: 20px;
+    height: 20px;
+    background: #bdbdbd;
+    border-radius: 50%;
+}
+.circle .bar {
+    display: block;
+    width: 16px;
+    height: 2px;
+    background: #fff;
+}
+.bar:first-child {
+    transform: rotate(45deg) translate(8px, 5px);
+}
+.bar:last-child {
+    transform: rotate(-45deg) translate(-3px, 7px);
+}
+.btn {
+    display: block;
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-weight: bolder;
+    font-size: 18px;
+    background: #42A5F5;
+    margin: 20px auto;
+}
+#errmsg {
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    background: #FF5722;
+    color: #fff;
+    font-weight: bolder;
+    text-align: center;
+    margin: 10px 0 20px;
+    border-radius: 5px;
+}
+.bottom {
+    position: absolute;
+    bottom: 0;
+    right: 30px;
+}
+.bottom .reg {
+    color: #FF5722;
+}

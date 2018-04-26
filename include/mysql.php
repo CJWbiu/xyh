@@ -83,4 +83,15 @@ function _is_login($key){
 		return false;	
 	}
 }
+/** 判断用户是否存在 */
+function _is_exist($username) {
+	$sql = "SELECT id FROM people WHERE name = '{$username}'";
+	$r = _fetch_array($sql);
+	
+	if(!!_fetch_array($sql)) {
+		return true;
+	}else {
+		return false;
+	}
+}
 ?>
