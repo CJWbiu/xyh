@@ -46,8 +46,8 @@ if(isset($_POST['action']) && $_POST['action'] == "register") {
                         )
                         VALUES(
                             '{$r_name}',
-                            '{$r_password}',
-                            '{$r_psw}'
+                            '{$r_psw}',
+                            '{$r_email}'
                         )
         ");
         if(mysql_affected_rows()==1){
@@ -55,13 +55,26 @@ if(isset($_POST['action']) && $_POST['action'] == "register") {
             $_id=_insert_id();
             _close();
             echo '{"errcode":"0000","id":'.$_id.'}';
-            setcookie("username",$username, time()+3600*24);
+            setcookie("username",$r_name, time()+3600*24);
             exit;
         }else{
             _close();
             echo '{"errcode":"5003","errmsg":"注册失败"}';
             exit;
         }
+    }
+}
+
+/** 获取个人信息 */
+if(isset($_GET['action']) && $_GET['action'] == 'person_info') {
+    if(_is_login('username')) {
+    $p_data = _fetch_array("SELECT id,num,name,depart,email,avatar,abstract FROM people WHERE name = '{$_COOKIE['username']}'");
+        echo json_encode($p_data);
+        _close();
+        exit;
+    }else {
+        echo '{"errcode":"1000","errmsg": "请登录"}';
+        exit;
     }
 }
 

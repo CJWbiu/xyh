@@ -49,7 +49,7 @@
         <button class="btn">注册</button>
         <p id="errmsg" style="display: none;"></p>
         <p class="bottom">
-            <a class="reg" href="login.php" >已有账号登录</a> 
+            <a class="reg" href="index.php" >已有账号登录</a> 
             <a href="activity.php">随便看看</a>
         </p>
     </div>
