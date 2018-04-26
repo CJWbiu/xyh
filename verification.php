@@ -55,7 +55,7 @@ if(isset($_POST['action']) && $_POST['action'] == "register") {
             $_id=_insert_id();
             _close();
             echo '{"errcode":"0000","id":'.$_id.'}';
-            setcookie("username",$r_name, time()+3600*24);
+            setcookie('username',$r_name,time()+604800);
             exit;
         }else{
             _close();
@@ -68,13 +68,70 @@ if(isset($_POST['action']) && $_POST['action'] == "register") {
 /** 获取个人信息 */
 if(isset($_GET['action']) && $_GET['action'] == 'person_info') {
     if(_is_login('username')) {
-    $p_data = _fetch_array("SELECT id,num,name,depart,email,avatar,abstract FROM people WHERE name = '{$_COOKIE['username']}'");
+    $p_data = _fetch_array("SELECT * FROM people WHERE name = '{$_COOKIE['username']}'");
         echo json_encode($p_data);
         _close();
         exit;
     }else {
         echo '{"errcode":"1000","errmsg": "请登录"}';
         exit;
+    }
+}
+
+/** 更新个人资料 */
+if(isset($_POST['action']) && $_POST['action'] == "update_info") {
+    if(_is_login('username')) {
+        $u_info = array();
+        $allowType=array('jpeg','gif','png','jpg');
+        $u_info['name'] = $_POST['name'];
+        $u_info['email'] = $_POST['email'];
+        $u_info['number'] = $_POST['number'];
+        $u_info['depart'] = $_POST['depart'];
+        $u_info['psw'] = $_POST['psw'];
+        $u_info['abstract'] = $_POST['abstract'];
+        $u_info['old'] = $_POST['old'];
+
+        /** 判断头像是否被修改 */
+		if($_FILES['avatar']['error']!=4){
+			$u_info['avatar']=_uploadFile($_FILES['avatar'],$allowType,'uploads/avatar');
+			/** 清除上一次设置的头像 */
+			if(!file_exists($u_info['old'])||$u_info['old']=='assert/bground/avatar.png'){
+				$u_info['old']=='assert/bground/avatar.png';
+			}else{
+				$del=unlink($u_info['old']);
+				if(!$del){
+					exit("数据清除失败！");
+				}
+			}
+		}else{
+			$u_info['avatar']=$u_info['old'];
+		}
+
+        _query("UPDATE people SET 
+                    num='{$u_info['number']}',
+                    name='{$u_info['name']}',
+                    depart='{$u_info['depart']}',
+                    password='{$u_info['psw']}',
+                    email='{$u_info['email']}',
+                    avatar='{$u_info['avatar']}',
+                    abstract='{$u_info['abstract']}'
+                WHERE
+                    name='{$_COOKIE['username']}'
+                    ");
+        
+        //判断是否修改成功
+        if(mysql_affected_rows()==1){
+            //获取新增的ID
+            $_id=_insert_id();
+            _close();
+            echo '{"errcode":"0000","id":'.$_id.'}';
+        }else{
+            _close();
+            echo '{"errcode":"6000","errmsg":"信息更新失败"}';
+        }
+    }else {
+        echo '{"errcode": "1000","errmsg":"请登录"}';
+        exit();
     }
 }
 

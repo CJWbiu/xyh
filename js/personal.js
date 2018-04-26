@@ -23,15 +23,17 @@ $(function() {
             number: $('#number'),
             abstract: $('#abstract'),
             depart: $('#depart'),
-            email: $('#email')
+            email: $('#email'),
+            edit: $('#edit')
         };
         if(data.avatar != '') {
-            avatar.attr('src', data.avatar);
+            el.avatar.attr('src', data.avatar);
         }
         el.number.html(data.num);
         el.u_name.html(data.name);
         el.abstract.append('<span>' + data.abstract + '</span>');
         el.depart.html(data.depart);
         el.email.html(data.email);
+        el.edit.attr('href', 'edit.php?user_id=' + data.id);
     }
 })

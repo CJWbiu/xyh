@@ -6,37 +6,48 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="./css/reset.css">
     <link rel="stylesheet" href="./assert/awesome/iconfont.css">
-    <link rel="stylesheet" href="./css/personal.css">
-    <title>个人中心</title>
+    <link rel="stylesheet" href="./css/edit.css">
+    <title>编辑个人资料</title>
 </head>
 <body>
-<div class="info_wrapper">
-    <div class="header"></div>
-    <div class="user">
-        <div class="avatar_wrapper">
-            <img id="avatar" src="./assert/bground/avatar.png" alt="avatar">
-        </div>
-        <div class="u_info">
-            <h1 id="u_name">法克大叔叔</h1>
-            <p id="abstract"><span>简介：</span></p>
-        </div>
-    </div>
-    <ul class="u_other">
-        <li>
-            <span>编号:</span>
-            <p id="number"></p>
+<form id="form">
+    <ul class="list_wrapper">
+        <li class="row avatar">
+            <span>更改头像</span>
+            <div class="btn-wrapper">
+                <input type="file" name="avatar" style="visibility:hidden;position:absolute;">
+                <input type="hidden" name="old" style="position:absolute">
+                <input type="text" disabled class="fileMsg">
+                <button type="button" class="btn upload">选择</button>
+            </div>
         </li>
-        <li>
-            <span>部门:</span> 
-            <p id="depart"></p>
+        <li class="row">
+            <span>更改昵称</span>
+            <input type="text" name="name">
         </li>
-        <li>
-            <span>邮箱:</span> 
-            <p id="email"></p>
+        <li class="row">
+            <span>更改邮箱</span>
+            <input type="text" name="email">
+        </li>
+        <li class="row">
+            <span>更改编号</span>
+            <input type="text" name="number">
+        </li>
+        <li class="row">
+            <span>更改部门</span>
+            <input type="text" name="depart">
+        </li>
+        <li class="row">
+            <span>更改密码</span>
+            <input type="text" name="psw">
+        </li>
+        <li class="row">
+            <span>更改简介</span>
+            <input type="text" name="abstract">
         </li>
     </ul>
-    <a class="btn" href="javascritp:;" id="edit">编辑个人资料</a>
-</div>
+    <button type="button" id="submit">提交</button>
+</form>
 
 <footer>
     <div class="home">
@@ -47,7 +58,7 @@
         </ul>
     </div> 
     <div class="add-act">
-        <a href="javascript:;">个人中心</a>
+        <a href="javascript:;">编辑资料</a>
     </div> 
     <div class="more">
         <button class="btn">
@@ -65,6 +76,6 @@
 </footer>
 
 <script src="./js/jquery.js"></script>
-<script src="./js/personal.js"></script>
+<script src="./js/edit.js"></script>
 </body>
 </html>
