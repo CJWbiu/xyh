@@ -68,9 +68,14 @@ $(function() {
                 console.log(res);
                 res = JSON.parse(res);
                 if(res.errcode == '0000') {
+                    $('#s-msg').val('');
                     window.location.reload();
                 }else if(res.errcode == '1000') {
                     window.location.href = 'index.php';
+                    return;
+                }else if(res.errcode == '3002') {
+                    alert('报名后才可以评论');
+                    $('#s-msg').val('');
                     return;
                 }else {
                     console.log('未知错误');

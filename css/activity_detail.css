@@ -85,7 +85,7 @@ body, html {
     box-sizing: border-box;
     overflow: hidden;   
 }
-.item .actor-list .avatar {
+/* .item .actor-list .avatar {
     display: block;
     float: left;
     width: 50px;
@@ -96,7 +96,7 @@ body, html {
     background-repeat: no-repeat !important;
     border-radius: 50%;
     margin-right: 3px;
-}
+} */
 .item .actor-list .showDetail {
     width: 20px;
     height: 20px;
