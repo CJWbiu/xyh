@@ -26,7 +26,7 @@ if(isset($_GET['action']) && $_GET['action'] == "use_ticket") {
             if(mysql_affected_rows()==1){
                 //获取新增的ID
                 $_id=_insert_id();
-                echo '<script>window.history.back();</script>';
+                echo '{"errcode": "0000","errmsg":"验证通过请入场"}';
                 _close();
                 exit;
             }else{
