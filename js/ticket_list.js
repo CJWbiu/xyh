@@ -50,6 +50,10 @@ $(function() {
     }
 
     function attendTpl(list) {
+        if(list.length == 0) {
+            $('.ticket-wrapper').html('暂时未参加任何活动！');
+            return;
+        }
         let html = '';
         list.forEach(function(item) {
             let start = new Date(parseInt(item.t_start)).toLocaleString("Y/M/d H:m");

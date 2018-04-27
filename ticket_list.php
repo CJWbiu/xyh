@@ -11,7 +11,7 @@
 </head>
 <body>
 <ul class="ticket-wrapper">
-
+    暂时没有参加任何活动！
 </ul>
 
 <footer>
@@ -32,8 +32,7 @@
             <span class="spot"></span>
         </button> 
         <ul class="other">
-            <li><a href="#"><span class="icon icon-circles" style="color: rgb(202, 138, 84);"></span>圈子</a></li> 
-            <li><a href="#"><span class="icon icon-group" style="margin-right: 5px; color: rgb(56, 86, 195);"></span> 个人信息</a></li> 
+            <li><a href="personal.php"><span class="icon icon-group" style="margin-right: 5px; color: rgb(56, 86, 195);"></span> 个人信息</a></li> 
             <li><a href="activity.php"><span class="icon icon-activityfill" style="color: rgb(106, 219, 224);"></span>活动</a></li> 
             <li><a href="javascript:location.reload();"><span class="icon icon-refresh" style="color: rgb(17, 146, 51);"></span> 刷新</a></li>
         </ul>
