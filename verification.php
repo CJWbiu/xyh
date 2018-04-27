@@ -1,6 +1,5 @@
 <?php
 require dirname(__FILE__).'/include/common.php';
-setcookie('username','cheng',time()+604800);
 
 /** 登录验证 */
 if(isset($_POST['action']) && $_POST['action'] == "login") {
@@ -17,8 +16,8 @@ if(isset($_POST['action']) && $_POST['action'] == "login") {
             exit;
         }else {
             echo '{"errcode": "0000"}';
-            setcookie("username",$username, time()+3600*24);
-            setcookie("id",$l_row['id'], time()+3600*24);
+            setcookie("username",$username, time()+86400);
+            setcookie("id",$l_row['id'], time()+86400);
             _close();
             exit;
         }
@@ -43,12 +42,14 @@ if(isset($_POST['action']) && $_POST['action'] == "register") {
             INSERT INTO people(
                             name,
                             password,
-                            email
+                            email,
+                            avatar
                         )
                         VALUES(
                             '{$r_name}',
                             '{$r_psw}',
-                            '{$r_email}'
+                            '{$r_email}',
+                            'assert/bground/avatar.png'
                         )
         ");
         if(mysql_affected_rows()==1){
@@ -56,8 +57,8 @@ if(isset($_POST['action']) && $_POST['action'] == "register") {
             $_id=_insert_id();
             _close();
             echo '{"errcode":"0000","id":'.$_id.'}';
-            setcookie('username',$r_name,time()+604800);
-            setcookie('id',$_id,time()+604800);
+            setcookie('username',$r_name,time()+86400);
+            setcookie('id',$_id,time()+86400);
             exit;
         }else{
             _close();
@@ -76,6 +77,7 @@ if(isset($_GET['action']) && $_GET['action'] == 'person_info') {
         exit;
     }else {
         echo '{"errcode":"1000","errmsg": "请登录"}';
+        header("Location: index.php");
         exit;
     }
 }
@@ -92,7 +94,7 @@ if(isset($_POST['action']) && $_POST['action'] == "update_info") {
         $u_info['psw'] = $_POST['psw'];
         $u_info['abstract'] = $_POST['abstract'];
         $u_info['old'] = $_POST['old'];
-        
+
         /** 判断头像是否被修改 */
 		if($_FILES['avatar']['error']!=4){
 			$u_info['avatar']=_uploadFile($_FILES['avatar'],$allowType,'uploads/avatar');
@@ -133,6 +135,7 @@ if(isset($_POST['action']) && $_POST['action'] == "update_info") {
         }
     }else {
         echo '{"errcode": "1000","errmsg":"请登录"}';
+        header("Location: index.php");
         exit();
     }
 }
@@ -391,38 +394,44 @@ if(isset($_POST['action']) && ($_POST['action'] == 'add_activity')) {
 }
 
 /** 评论 */
-if(isset($_POST['action']) && ($_POST['action'] == 'comment') && _is_login()) {
-    $c_act_id = $_POST['act_id'];
-    $c_user = $_COOKIE['username'];
-    $c_content = $_POST['content'];
-    if(_fetch_array("SELECT t_id FROM ticket WHERE t_user = '{$c_user}' AND t_act_id = '{$c_act_id}'")) {
-        _query("
-            INSERT INTO comment(
-                            c_user,
-                            c_time,
-                            c_content,
-                            c_act_id
-                        )
-                        VALUES(
-                            '{$c_user}',
-                            NOW(),
-                            '{$c_content}',
-                            '{$c_act_id}'
-                        )
-        ");
-        //判断是否修改成功
-        if(mysql_affected_rows()==1){
-            //获取新增的ID
-            $_id=_insert_id();
+if(isset($_POST['action']) && ($_POST['action'] == 'comment')) {
+    if(_is_login()) {
+        $c_act_id = $_POST['act_id'];
+        $c_user = $_COOKIE['username'];
+        $c_content = $_POST['content'];
+        if(_fetch_array("SELECT t_id FROM ticket WHERE t_user = '{$c_user}' AND t_act_id = '{$c_act_id}'")) {
+            _query("
+                INSERT INTO comment(
+                                c_user,
+                                c_time,
+                                c_content,
+                                c_act_id
+                            )
+                            VALUES(
+                                '{$c_user}',
+                                NOW(),
+                                '{$c_content}',
+                                '{$c_act_id}'
+                            )
+            ");
+            //判断是否修改成功
+            if(mysql_affected_rows()==1){
+                //获取新增的ID
+                $_id=_insert_id();
+                _close();
+                echo '{"errcode":"0000","id":'.$_id.'}';
+            }else{
+                _close();
+                echo '{"errcode":"4000","errmsg":"数据库写入失败"}';
+            }
+        }else {
+            echo '{"errcode": "3002", "errmsg": "未报名"}';
             _close();
-            echo '{"errcode":"0000","id":'.$_id.'}';
-        }else{
-            _close();
-            echo '{"errcode":"4000","errmsg":"数据库写入失败"}';
         }
     }else {
-        echo '{"errcode": "3002", "errmsg": "未报名"}';
-        _close();
+        echo '{"errcode": "1000", "errmsg": "未登录"}';
+        exit;
     }
+    
 }
 ?>

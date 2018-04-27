@@ -216,7 +216,7 @@ function like(id, item) {
         res = JSON.parse(res);
         console.log(res);
         if(res.errcode == "1000") {
-            window.location.href = 'login.php';
+            window.location.href = 'index.php';
         }else if(res.errcode == '0000') {
             $(item).find('.likenum').html(parseInt($(item).find('.likenum').html()) + 1);
         }
@@ -234,17 +234,15 @@ function join(id,end,start,title,place) {
         "place": place,
         "title": title
     };
-    console.log(data);
     $.post('verification.php', data, function(res) {
-       console.log(res);
         try{
             res = JSON.parse(res);
             console.log(res);
             if(res.errcode == '0000') {
                 window.location.href = 'ticket.php?t_id=' + res.t_id;
-            }else if(res.errcode == '3000') {
-                alert('已经报过名了');
-                window.location.href = 'ticket_list.php?action=all_ticket';
+            }else if(res.errcode == '1000') {
+                alert('未登录');
+                window.location.href = 'index.php';
             }else {
                 alert('报名失败');
             }

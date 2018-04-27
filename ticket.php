@@ -14,6 +14,7 @@ if(isset($_GET['action']) && $_GET['action'] == "use_ticket") {
         if($t_detail['t_flag'] == 1) {
             echo '{"errcode": "7000","errmsg":"票据已过期"}';
             _close();
+            exit;
         }else {
             _query("
                     UPDATE ticket SET
@@ -27,9 +28,11 @@ if(isset($_GET['action']) && $_GET['action'] == "use_ticket") {
                 $_id=_insert_id();
                 echo '<script>window.history.back();</script>';
                 _close();
+                exit;
             }else{
                 _close();
                 echo '{"errcode":"6000","errmsg":"信息更新失败"}';
+                exit;
             }
         }
     }
@@ -45,7 +48,7 @@ if(_is_login()) {
     }else {
         $flagMsg = '<span class="flag" style="background:rgb(155, 155, 155);">已使用</span>';
     }
-    $value = 'http://localhost:8085/weChat/ticket.php?action=use_ticket&admin=cheng&id='.$detail['t_id']; //二维码内容     
+    $value = 'http://www.pinkbluecp.cn/xyh/ticket.php?action=use_ticket&admin=cheng&id='.$detail['t_id']; //二维码内容     
     $errorCorrectionLevel = 'L'; //容错级别     
     $matrixPointSize = 6; //生成图片大小  
   
@@ -111,8 +114,7 @@ if(_is_login()) {
             <span class="spot"></span>
         </button> 
         <ul class="other">
-            <li><a href="#"><span class="icon icon-circles" style="color: rgb(202, 138, 84);"></span>圈子</a></li> 
-            <li><a href="#"><span class="icon icon-group" style="margin-right: 5px; color: rgb(56, 86, 195);"></span> 个人信息</a></li> 
+            <li><a href="personal.php"><span class="icon icon-group" style="margin-right: 5px; color: rgb(56, 86, 195);"></span> 个人信息</a></li> 
             <li><a href="activity.php"><span class="icon icon-activityfill" style="color: rgb(106, 219, 224);"></span>活动</a></li> 
             <li><a href="javascript:location.reload();"><span class="icon icon-refresh" style="color: rgb(17, 146, 51);"></span> 刷新</a></li>
         </ul>

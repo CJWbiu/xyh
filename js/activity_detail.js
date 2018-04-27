@@ -69,8 +69,10 @@ $(function() {
                 res = JSON.parse(res);
                 if(res.errcode == '0000') {
                     window.location.reload();
+                }else if(res.errcode == '1000') {
+                    window.location.href = 'index.php';
                 }else {
-                    alert(res.errmsg);
+                    console.log('未知错误');
                 }
              })
         })

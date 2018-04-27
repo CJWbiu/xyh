@@ -18,6 +18,10 @@
             }else {
                 $comment['flag'] = '';
             }
+            /** 获取用户头像 */
+            $p_res = _query("SELECT avatar FROM people WHERE name = '{$comment['c_user']}'");
+            $p_avatar = mysql_fetch_row($p_res);
+            $comment['c_avatar'] = $p_avatar['avatar'];
 
             if(sizeof($comment_box[$index]) == 0) {
                 array_push($comment_box[$index],$comment);
@@ -117,7 +121,9 @@
             } ?>
         <?php for($j = 0; $j < sizeof($comment_box[$i]); $j++) {?>
             <div class="c-item <?php echo $comment_box[$i][$j]['flag'];?>">
-                <div class="c-avatar"></div>
+                <div class="c-avatar">
+                    <img src="<?php echo $comment_box[$i][$j]['c_avatar'];?>">
+                </div>
                 <div class="c-info">
                     <p class="c-top">
                         <span class="c-name"><?php echo $comment_box[$i][$j]['c_date']; ?></span>
