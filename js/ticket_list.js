@@ -50,10 +50,10 @@ $(function() {
     function attendTpl(list) {
         let html = '';
         list.forEach(function(item) {
-
             let start = new Date(parseInt(item.t_start)).toLocaleString("Y/M/d H:m");
             let end = new Date(parseInt(item.t_end)).toLocaleString("Y/M/d H:m");
             start = start.split(' ');
+            let flagMsg = (item.t_flag == 0) ? '<span class="flag" style="background: #4CAF50;">未使用</span>' : '<span class="flag" style="background:rgb(155, 155, 155);">已使用</span>';
             let tpl = `
                 <li>
                     <a class="ticket" href="ticket.php?t_id=${item.t_id}">
@@ -67,7 +67,7 @@ $(function() {
                             <p>${item.t_place}</p>
                         </div>
                     </a>
-                    <span class="flag">未使用</span>
+                    ${flagMsg}
                 </li>
             `;
             html += tpl;

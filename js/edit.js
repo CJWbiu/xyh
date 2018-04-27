@@ -27,7 +27,6 @@ $(function() {
             contentType: false, // 设置jQuery不去设置Content-Type请求头
             success: function(data) {
                 data = JSON.parse(data);
-                console.log(data);
                 if(data.errcode == "0000") {
                     window.location.href = 'personal.php';
                 }else {
@@ -49,7 +48,7 @@ $(function() {
             if(res.email) {
                 $('input[name=email]').val(res.email);
             }
-            if(res.number) {
+            if(res.num) {
                 $('input[name=number]').val(res.num);
             }
             if(res.depart) {

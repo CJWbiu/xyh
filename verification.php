@@ -18,6 +18,7 @@ if(isset($_POST['action']) && $_POST['action'] == "login") {
         }else {
             echo '{"errcode": "0000"}';
             setcookie("username",$username, time()+3600*24);
+            setcookie("id",$l_row['id'], time()+3600*24);
             _close();
             exit;
         }
@@ -56,6 +57,7 @@ if(isset($_POST['action']) && $_POST['action'] == "register") {
             _close();
             echo '{"errcode":"0000","id":'.$_id.'}';
             setcookie('username',$r_name,time()+604800);
+            setcookie('id',$_id,time()+604800);
             exit;
         }else{
             _close();
@@ -67,8 +69,8 @@ if(isset($_POST['action']) && $_POST['action'] == "register") {
 
 /** 获取个人信息 */
 if(isset($_GET['action']) && $_GET['action'] == 'person_info') {
-    if(_is_login('username')) {
-    $p_data = _fetch_array("SELECT * FROM people WHERE name = '{$_COOKIE['username']}'");
+    if(_is_login()) {
+        $p_data = _fetch_array("SELECT * FROM people WHERE name = '{$_COOKIE['username']}' AND id='{$_COOKIE['id']}'");
         echo json_encode($p_data);
         _close();
         exit;
@@ -80,7 +82,7 @@ if(isset($_GET['action']) && $_GET['action'] == 'person_info') {
 
 /** 更新个人资料 */
 if(isset($_POST['action']) && $_POST['action'] == "update_info") {
-    if(_is_login('username')) {
+    if(_is_login()) {
         $u_info = array();
         $allowType=array('jpeg','gif','png','jpg');
         $u_info['name'] = $_POST['name'];
@@ -90,7 +92,7 @@ if(isset($_POST['action']) && $_POST['action'] == "update_info") {
         $u_info['psw'] = $_POST['psw'];
         $u_info['abstract'] = $_POST['abstract'];
         $u_info['old'] = $_POST['old'];
-
+        
         /** 判断头像是否被修改 */
 		if($_FILES['avatar']['error']!=4){
 			$u_info['avatar']=_uploadFile($_FILES['avatar'],$allowType,'uploads/avatar');
@@ -228,7 +230,7 @@ if($_GET['action'] == 'getList') {
 
 /** 点赞 */
 if(isset($_GET['action']) && $_GET['action'] == 'like') {
-    if(_is_login("username")) {
+    if(_is_login()) {
         $act_id = $_GET['act_id'];
         $sql = "SELECT id FROM act_like WHERE user_name='{$_COOKIE['username']}' AND act_id = '{$act_id}'";
         
@@ -261,7 +263,7 @@ if(isset($_GET['action']) && $_GET['action'] == 'like') {
 }
 /** 报名 */
 if(isset($_POST['action']) && $_POST['action'] == 'join') {
-    if(_is_login('username')) {
+    if(_is_login()) {
         if(_fetch_array("SELECT t_id FROM ticket WHERE t_user = '{$_COOKIE['username']}' AND t_act_id = '{$_GET['act_id']}'")) {
             echo '{"errcode": "3000","errmsg":"已经报过名"}';
             _close();
@@ -297,9 +299,10 @@ if(isset($_POST['action']) && $_POST['action'] == 'join') {
         echo '{"errcode": "1000", "errmsg":"请登录"}';
     }
 }
+
 /** 取消报名 */
 if(isset($_POST['action']) && $_POST['action'] == 'esc_join') {
-    if(_is_login('username')) {
+    if(_is_login()) {
         $t_act_id = $_POST['t_act_id'];
         _query("DELETE FROM ticket WHERE t_act_id = '{$t_act_id}' AND t_user = '{$_COOKIE['username']}'");
         if(mysql_affected_rows() == 1) {
@@ -316,7 +319,7 @@ if(isset($_POST['action']) && $_POST['action'] == 'esc_join') {
 }
 /** 读取电子票列表 */
 if(isset($_GET['action']) && $_GET['action'] == 'all_ticket') {
-    if(_is_login('username')) {
+    if(_is_login()) {
         $ticket_list = array();
         $sql = "SELECT * FROM ticket WHERE t_user = '{$_COOKIE['username']}'";
         $tickets = _query($sql);
@@ -331,7 +334,7 @@ if(isset($_GET['action']) && $_GET['action'] == 'all_ticket') {
 
 /** 添加活动 */
 if(isset($_POST['action']) && ($_POST['action'] == 'add_activity')) {
-    if(_is_login("username")) {
+    if(_is_login()) {
         $info = array();
         $allowType=array('jpeg','gif','png','jpg');
         $info['img'] = _uploadFile($_FILES['img'],$allowType);
@@ -388,7 +391,7 @@ if(isset($_POST['action']) && ($_POST['action'] == 'add_activity')) {
 }
 
 /** 评论 */
-if(isset($_POST['action']) && ($_POST['action'] == 'comment') && _is_login('username')) {
+if(isset($_POST['action']) && ($_POST['action'] == 'comment') && _is_login()) {
     $c_act_id = $_POST['act_id'];
     $c_user = $_COOKIE['username'];
     $c_content = $_POST['content'];

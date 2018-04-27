@@ -1,3 +1,10 @@
+<?php
+    require dirname(__FILE__).'/include/common.php';
+    if(_is_login()) {
+        echo '<script>window.location.href="activity.php"</script>';
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

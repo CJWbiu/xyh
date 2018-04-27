@@ -76,8 +76,8 @@ function _close(){
  * 判断用户是否登录
  * @$key cookie存储字段
  */
-function _is_login($key){
-	if(isset($_COOKIE[$key]) && _fetch_array("SELECT u_id FROM user WHERE u_name = '{$_COOKIE[$key]}' LIMIT 1")) {
+function _is_login(){
+	if(isset($_COOKIE['username']) && isset($_COOKIE['id']) && _fetch_array("SELECT id FROM people WHERE name = '{$_COOKIE['username']}' AND id = '{$_COOKIE['id']}' LIMIT 1")) {
 		return true;
 	}else {
 		return false;	

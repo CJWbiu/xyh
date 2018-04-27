@@ -1,7 +1,7 @@
 <?php
 /** 引入核心函数库 */
-require dirname(__FILE__).'./global.php';
-require dirname(__FILE__).'./mysql.php';
+require dirname(__FILE__).'/global.php';
+require dirname(__FILE__).'/mysql.php';
 date_default_timezone_set("Asia/Shanghai");
 /** 数据库连接 */
 define('DB_USER', 'root');

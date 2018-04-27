@@ -1,9 +1,57 @@
 <?php
 require dirname(__FILE__).'/include/common.php';
-if(_is_login('username')) {
+require dirname(__FILE__).'/include/phpqrcode.php';
+
+/** 扫码使用电子票 */
+if(isset($_GET['action']) && $_GET['action'] == "use_ticket") {
+    $t_id = $_GET['id'];
+    $t_detail = _fetch_array("SELECT * FROM ticket WHERE t_id = '{$t_id}'");
+    if($_COOKIE['username'] != $_GET['admin']) {
+        echo '{"errcode": "7001","errmsg":"没有权限"}';
+        _close();
+        exit;
+    }else {
+        if($t_detail['t_flag'] == 1) {
+            echo '{"errcode": "7000","errmsg":"票据已过期"}';
+            _close();
+        }else {
+            _query("
+                    UPDATE ticket SET
+                        t_flag=1
+                    WHERE
+                        t_id='{$t_id}'
+            ");
+            //判断是否修改成功
+            if(mysql_affected_rows()==1){
+                //获取新增的ID
+                $_id=_insert_id();
+                echo '<script>window.history.back();</script>';
+                _close();
+            }else{
+                _close();
+                echo '{"errcode":"6000","errmsg":"信息更新失败"}';
+            }
+        }
+    }
+    
+}
+
+if(_is_login()) {
     $detail = _fetch_array("SELECT * FROM ticket WHERE t_id ='{$_GET['t_id']}'");
     $start = date("Y-m-d H:i",($detail['t_start']/1000));
     $end = date("Y-m-d H:i",($detail['t_end']/1000));
+    if($detail['t_flag'] == 0) {
+        $flagMsg = '<span class="flag" style="background: #4CAF50;">未使用</span>';
+    }else {
+        $flagMsg = '<span class="flag" style="background:rgb(155, 155, 155);">已使用</span>';
+    }
+    $value = 'http://localhost:8085/weChat/ticket.php?action=use_ticket&admin=cheng&id='.$detail['t_id']; //二维码内容     
+    $errorCorrectionLevel = 'L'; //容错级别     
+    $matrixPointSize = 6; //生成图片大小  
+  
+    // 生成二维码图片     
+    QRcode::png($value, 'qrcode.png', $errorCorrectionLevel, $matrixPointSize, 2);  
+
 }else {  
     echo '<script>alert("请登录"); window.history.back()</script>';
 }
@@ -36,10 +84,12 @@ if(_is_login('username')) {
             </a>
         </div>
         <div class="number">
-            <div class="identify">1008</div>
+            <div class="identify">
+                <img src="qrcode.png" style="height:100%;">
+            </div>
             <p class="tips">请签到管理人用微信扫描二维码进行验证</p>
         </div>
-        <span class="flag">未使用</span>
+        <?php echo $flagMsg;?>
     </div>
 </div>
 
