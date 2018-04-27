@@ -12,7 +12,12 @@ $(function() {
     function getData() {
         $.get('verification.php?action=person_info', function(res) {
             res = JSON.parse(res);
-            initPage(res);
+            if(res.errcode == '1000') {
+                window.location.href = 'index.php';
+                return;
+            }else {
+                initPage(res);
+            }
         })
     }
     function initPage(data) {

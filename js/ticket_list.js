@@ -32,6 +32,7 @@ $(function() {
         }else if(res.errcode == '1000') {
             console.log(res);
             window.location.href = 'index.php';
+            return;
         }
         
     })

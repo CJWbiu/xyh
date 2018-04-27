@@ -217,6 +217,7 @@ function like(id, item) {
         console.log(res);
         if(res.errcode == "1000") {
             window.location.href = 'index.php';
+            return;
         }else if(res.errcode == '0000') {
             $(item).find('.likenum').html(parseInt($(item).find('.likenum').html()) + 1);
         }

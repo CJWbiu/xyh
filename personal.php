@@ -17,7 +17,7 @@
             <img id="avatar" src="./assert/bground/avatar.png" alt="avatar">
         </div>
         <div class="u_info">
-            <h1 id="u_name">法克大叔叔</h1>
+            <h1 id="u_name"></h1>
             <p id="abstract"><span>简介：</span></p>
         </div>
     </div>

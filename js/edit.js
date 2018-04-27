@@ -42,6 +42,10 @@ $(function() {
         $.get('verification.php?action=person_info', function(res) {
             res = JSON.parse(res);
             console.log(res)
+            if(res.errcode == '1000') {
+                window.location.href = 'index.php';
+                return;
+            }
             if(res.name) {
                 $('input[name=name]').val(res.name);
             }

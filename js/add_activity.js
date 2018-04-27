@@ -53,6 +53,9 @@ $(function() {
                         console.log(data);
                         if(data.errcode == "0000") {
                             window.location.href = 'activity_detail.php?activity_id=' + data.id;
+                        }else if(data.errcode == '1000') {
+                            window.location.href = 'index.php';
+                            return;
                         }
                     },
                     error: function(xht) {

@@ -77,7 +77,6 @@ if(isset($_GET['action']) && $_GET['action'] == 'person_info') {
         exit;
     }else {
         echo '{"errcode":"1000","errmsg": "请登录"}';
-        header("Location: index.php");
         exit;
     }
 }
@@ -135,7 +134,6 @@ if(isset($_POST['action']) && $_POST['action'] == "update_info") {
         }
     }else {
         echo '{"errcode": "1000","errmsg":"请登录"}';
-        header("Location: index.php");
         exit();
     }
 }
@@ -332,6 +330,7 @@ if(isset($_GET['action']) && $_GET['action'] == 'all_ticket') {
         echo json_encode($ticket_list);
     }else {
         echo '{"errcode": "1000", "errmsg":"请登录"}';
+        exit;
     }
 }
 

@@ -71,6 +71,7 @@ $(function() {
                     window.location.reload();
                 }else if(res.errcode == '1000') {
                     window.location.href = 'index.php';
+                    return;
                 }else {
                     console.log('未知错误');
                 }
