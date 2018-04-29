@@ -48,7 +48,7 @@ if(_is_login()) {
     }else {
         $flagMsg = '<span class="flag" style="background:rgb(155, 155, 155);">已使用</span>';
     }
-    $value = 'http://www.pinkbluecp.cn/xyh/ticket.php?action=use_ticket&admin=cheng&id='.$detail['t_id']; //二维码内容     
+    $value = 'http://www.pinkbluecp.cn:8000/xyh/ticket.php?action=use_ticket&admin=cheng&id='.$detail['t_id']; //二维码内容     
     $errorCorrectionLevel = 'L'; //容错级别     
     $matrixPointSize = 6; //生成图片大小  
   
